@@ -1,0 +1,352 @@
+total_cache_blocks: 8
+total_sets: 4
+******************** CACHE ***************************
+############################
+Set: 0
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+############################
+Set: 1
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+############################
+Set: 2
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+############################
+Set: 3
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+*****************************************************
+=========================== instruction ==============================
+inst_count: 0
+memory_address: 1
+inst_type: 1
+block_address: 1
+set_index: 1
+block_offset: 0
+tag: 0
+first_non_valid_index: 0
+hit/miss: MISS
+******************** CACHE ***************************
+############################
+Set: 0
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+############################
+Set: 1
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+############################
+Set: 2
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+############################
+Set: 3
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+*****************************************************
+=========================== instruction ==============================
+inst_count: 1
+memory_address: 9
+inst_type: 1
+block_address: 9
+set_index: 1
+block_offset: 0
+tag: 1
+first_non_valid_index: 1
+hit/miss: MISS
+******************** CACHE ***************************
+############################
+Set: 0
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+############################
+Set: 1
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+----------------------------
+ca: 1
+cache_block_valid: 1
+cache_block_tag: 1
+cache_block_latest_access_time: 1
+cache_block_data: 0 
+############################
+Set: 2
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+############################
+Set: 3
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+*****************************************************
+=========================== instruction ==============================
+inst_count: 2
+memory_address: 17
+inst_type: 1
+block_address: 17
+set_index: 1
+block_offset: 0
+tag: 2
+first_non_valid_index: -1
+hit/miss: MISS
+******************** CACHE ***************************
+############################
+Set: 0
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+############################
+Set: 1
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 2
+cache_block_latest_access_time: 2
+cache_block_data: 0 
+----------------------------
+ca: 1
+cache_block_valid: 1
+cache_block_tag: 1
+cache_block_latest_access_time: 1
+cache_block_data: 0 
+############################
+Set: 2
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+############################
+Set: 3
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+*****************************************************
+=========================== instruction ==============================
+inst_count: 3
+memory_address: 25
+inst_type: 1
+block_address: 25
+set_index: 1
+block_offset: 0
+tag: 3
+first_non_valid_index: -1
+hit/miss: MISS
+******************** CACHE ***************************
+############################
+Set: 0
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+############################
+Set: 1
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 2
+cache_block_latest_access_time: 2
+cache_block_data: 0 
+----------------------------
+ca: 1
+cache_block_valid: 1
+cache_block_tag: 3
+cache_block_latest_access_time: 3
+cache_block_data: 0 
+############################
+Set: 2
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+############################
+Set: 3
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0 
+*****************************************************

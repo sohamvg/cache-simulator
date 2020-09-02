@@ -9,13 +9,13 @@ ca: 0
 cache_block_valid: 0
 cache_block_tag: 0
 cache_block_latest_access_time: 0
-cache_block_data: 0 
+cache_block_data: 0
 ----------------------------
 ca: 1
 cache_block_valid: 0
 cache_block_tag: 0
 cache_block_latest_access_time: 0
-cache_block_data: 0 
+cache_block_data: 0
 ############################
 Set: 1
 set_priority_divider: 0
@@ -24,13 +24,13 @@ ca: 0
 cache_block_valid: 0
 cache_block_tag: 0
 cache_block_latest_access_time: 0
-cache_block_data: 0 
+cache_block_data: 0
 ----------------------------
 ca: 1
 cache_block_valid: 0
 cache_block_tag: 0
 cache_block_latest_access_time: 0
-cache_block_data: 0 
+cache_block_data: 0
 ############################
 Set: 2
 set_priority_divider: 0
@@ -39,13 +39,13 @@ ca: 0
 cache_block_valid: 0
 cache_block_tag: 0
 cache_block_latest_access_time: 0
-cache_block_data: 0 
+cache_block_data: 0
 ----------------------------
 ca: 1
 cache_block_valid: 0
 cache_block_tag: 0
 cache_block_latest_access_time: 0
-cache_block_data: 0 
+cache_block_data: 0
 ############################
 Set: 3
 set_priority_divider: 0
@@ -54,21 +54,19 @@ ca: 0
 cache_block_valid: 0
 cache_block_tag: 0
 cache_block_latest_access_time: 0
-cache_block_data: 0 
+cache_block_data: 0
 ----------------------------
 ca: 1
 cache_block_valid: 0
 cache_block_tag: 0
 cache_block_latest_access_time: 0
-cache_block_data: 0 
+cache_block_data: 0
 *****************************************************
 =========================== instruction ==============================
 inst_count: 0
-memory_address: 1
+memory_address: 0
 inst_type: 1
-block_address: 1
-set_index: 1
-block_offset: 0
+set_index: 0
 tag: 0
 first_non_valid_index: 0
 hit/miss: MISS
@@ -78,31 +76,31 @@ Set: 0
 set_priority_divider: 0
 ----------------------------
 ca: 0
-cache_block_valid: 0
+cache_block_valid: 1
 cache_block_tag: 0
 cache_block_latest_access_time: 0
-cache_block_data: 0 
+cache_block_data: 0
 ----------------------------
 ca: 1
 cache_block_valid: 0
 cache_block_tag: 0
 cache_block_latest_access_time: 0
-cache_block_data: 0 
+cache_block_data: 0
 ############################
 Set: 1
 set_priority_divider: 0
 ----------------------------
 ca: 0
-cache_block_valid: 1
+cache_block_valid: 0
 cache_block_tag: 0
 cache_block_latest_access_time: 0
-cache_block_data: 0 
+cache_block_data: 0
 ----------------------------
 ca: 1
 cache_block_valid: 0
 cache_block_tag: 0
 cache_block_latest_access_time: 0
-cache_block_data: 0 
+cache_block_data: 0
 ############################
 Set: 2
 set_priority_divider: 0
@@ -111,13 +109,13 @@ ca: 0
 cache_block_valid: 0
 cache_block_tag: 0
 cache_block_latest_access_time: 0
-cache_block_data: 0 
+cache_block_data: 0
 ----------------------------
 ca: 1
 cache_block_valid: 0
 cache_block_tag: 0
 cache_block_latest_access_time: 0
-cache_block_data: 0 
+cache_block_data: 0
 ############################
 Set: 3
 set_priority_divider: 0
@@ -126,21 +124,229 @@ ca: 0
 cache_block_valid: 0
 cache_block_tag: 0
 cache_block_latest_access_time: 0
-cache_block_data: 0 
+cache_block_data: 0
 ----------------------------
 ca: 1
 cache_block_valid: 0
 cache_block_tag: 0
 cache_block_latest_access_time: 0
-cache_block_data: 0 
+cache_block_data: 0
 *****************************************************
 =========================== instruction ==============================
 inst_count: 1
-memory_address: 9
+memory_address: 1
 inst_type: 1
-block_address: 9
 set_index: 1
-block_offset: 0
+tag: 0
+first_non_valid_index: 0
+hit/miss: MISS
+******************** CACHE ***************************
+############################
+Set: 0
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0
+############################
+Set: 1
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 0
+cache_block_latest_access_time: 1
+cache_block_data: 0
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0
+############################
+Set: 2
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0
+############################
+Set: 3
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0
+*****************************************************
+=========================== instruction ==============================
+inst_count: 2
+memory_address: 2
+inst_type: 1
+set_index: 2
+tag: 0
+first_non_valid_index: 0
+hit/miss: MISS
+******************** CACHE ***************************
+############################
+Set: 0
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0
+############################
+Set: 1
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 0
+cache_block_latest_access_time: 1
+cache_block_data: 0
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0
+############################
+Set: 2
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 0
+cache_block_latest_access_time: 2
+cache_block_data: 0
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0
+############################
+Set: 3
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0
+*****************************************************
+=========================== instruction ==============================
+inst_count: 3
+memory_address: 3
+inst_type: 1
+set_index: 3
+tag: 0
+first_non_valid_index: 0
+hit/miss: MISS
+******************** CACHE ***************************
+############################
+Set: 0
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0
+############################
+Set: 1
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 0
+cache_block_latest_access_time: 1
+cache_block_data: 0
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0
+############################
+Set: 2
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 0
+cache_block_latest_access_time: 2
+cache_block_data: 0
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0
+############################
+Set: 3
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 0
+cache_block_latest_access_time: 3
+cache_block_data: 0
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0
+*****************************************************
+=========================== instruction ==============================
+inst_count: 4
+memory_address: 4
+inst_type: 1
+set_index: 0
 tag: 1
 first_non_valid_index: 1
 hit/miss: MISS
@@ -150,16 +356,16 @@ Set: 0
 set_priority_divider: 0
 ----------------------------
 ca: 0
-cache_block_valid: 0
+cache_block_valid: 1
 cache_block_tag: 0
 cache_block_latest_access_time: 0
-cache_block_data: 0 
+cache_block_data: 0
 ----------------------------
 ca: 1
-cache_block_valid: 0
-cache_block_tag: 0
-cache_block_latest_access_time: 0
-cache_block_data: 0 
+cache_block_valid: 1
+cache_block_tag: 1
+cache_block_latest_access_time: 4
+cache_block_data: 0
 ############################
 Set: 1
 set_priority_divider: 0
@@ -167,53 +373,261 @@ set_priority_divider: 0
 ca: 0
 cache_block_valid: 1
 cache_block_tag: 0
-cache_block_latest_access_time: 0
-cache_block_data: 0 
+cache_block_latest_access_time: 1
+cache_block_data: 0
 ----------------------------
 ca: 1
-cache_block_valid: 1
-cache_block_tag: 1
-cache_block_latest_access_time: 1
-cache_block_data: 0 
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0
 ############################
 Set: 2
 set_priority_divider: 0
 ----------------------------
 ca: 0
-cache_block_valid: 0
+cache_block_valid: 1
 cache_block_tag: 0
-cache_block_latest_access_time: 0
-cache_block_data: 0 
+cache_block_latest_access_time: 2
+cache_block_data: 0
 ----------------------------
 ca: 1
 cache_block_valid: 0
 cache_block_tag: 0
 cache_block_latest_access_time: 0
-cache_block_data: 0 
+cache_block_data: 0
 ############################
 Set: 3
 set_priority_divider: 0
 ----------------------------
 ca: 0
-cache_block_valid: 0
+cache_block_valid: 1
 cache_block_tag: 0
-cache_block_latest_access_time: 0
-cache_block_data: 0 
+cache_block_latest_access_time: 3
+cache_block_data: 0
 ----------------------------
 ca: 1
 cache_block_valid: 0
 cache_block_tag: 0
 cache_block_latest_access_time: 0
-cache_block_data: 0 
+cache_block_data: 0
 *****************************************************
 =========================== instruction ==============================
-inst_count: 2
+inst_count: 5
+memory_address: 5
+inst_type: 1
+set_index: 1
+tag: 1
+first_non_valid_index: 1
+hit/miss: MISS
+******************** CACHE ***************************
+############################
+Set: 0
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0
+----------------------------
+ca: 1
+cache_block_valid: 1
+cache_block_tag: 1
+cache_block_latest_access_time: 4
+cache_block_data: 0
+############################
+Set: 1
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 0
+cache_block_latest_access_time: 1
+cache_block_data: 0
+----------------------------
+ca: 1
+cache_block_valid: 1
+cache_block_tag: 1
+cache_block_latest_access_time: 5
+cache_block_data: 0
+############################
+Set: 2
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 0
+cache_block_latest_access_time: 2
+cache_block_data: 0
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0
+############################
+Set: 3
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 0
+cache_block_latest_access_time: 3
+cache_block_data: 0
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0
+*****************************************************
+=========================== instruction ==============================
+inst_count: 6
+memory_address: 6
+inst_type: 1
+set_index: 2
+tag: 1
+first_non_valid_index: 1
+hit/miss: MISS
+******************** CACHE ***************************
+############################
+Set: 0
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0
+----------------------------
+ca: 1
+cache_block_valid: 1
+cache_block_tag: 1
+cache_block_latest_access_time: 4
+cache_block_data: 0
+############################
+Set: 1
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 0
+cache_block_latest_access_time: 1
+cache_block_data: 0
+----------------------------
+ca: 1
+cache_block_valid: 1
+cache_block_tag: 1
+cache_block_latest_access_time: 5
+cache_block_data: 0
+############################
+Set: 2
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 0
+cache_block_latest_access_time: 2
+cache_block_data: 0
+----------------------------
+ca: 1
+cache_block_valid: 1
+cache_block_tag: 1
+cache_block_latest_access_time: 6
+cache_block_data: 0
+############################
+Set: 3
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 0
+cache_block_latest_access_time: 3
+cache_block_data: 0
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0
+*****************************************************
+=========================== instruction ==============================
+inst_count: 7
+memory_address: 16
+inst_type: 1
+set_index: 0
+tag: 4
+first_non_valid_index: -1
+hit/miss: MISS
+******************** CACHE ***************************
+############################
+Set: 0
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 4
+cache_block_latest_access_time: 7
+cache_block_data: 0
+----------------------------
+ca: 1
+cache_block_valid: 1
+cache_block_tag: 1
+cache_block_latest_access_time: 4
+cache_block_data: 0
+############################
+Set: 1
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 0
+cache_block_latest_access_time: 1
+cache_block_data: 0
+----------------------------
+ca: 1
+cache_block_valid: 1
+cache_block_tag: 1
+cache_block_latest_access_time: 5
+cache_block_data: 0
+############################
+Set: 2
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 0
+cache_block_latest_access_time: 2
+cache_block_data: 0
+----------------------------
+ca: 1
+cache_block_valid: 1
+cache_block_tag: 1
+cache_block_latest_access_time: 6
+cache_block_data: 0
+############################
+Set: 3
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 0
+cache_block_latest_access_time: 3
+cache_block_data: 0
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_data: 0
+*****************************************************
+=========================== instruction ==============================
+inst_count: 8
 memory_address: 17
 inst_type: 1
-block_address: 17
 set_index: 1
-block_offset: 0
-tag: 2
+tag: 4
 first_non_valid_index: -1
 hit/miss: MISS
 ******************** CACHE ***************************
@@ -222,131 +636,59 @@ Set: 0
 set_priority_divider: 0
 ----------------------------
 ca: 0
-cache_block_valid: 0
-cache_block_tag: 0
-cache_block_latest_access_time: 0
-cache_block_data: 0 
-----------------------------
-ca: 1
-cache_block_valid: 0
-cache_block_tag: 0
-cache_block_latest_access_time: 0
-cache_block_data: 0 
-############################
-Set: 1
-set_priority_divider: 0
-----------------------------
-ca: 0
 cache_block_valid: 1
-cache_block_tag: 2
-cache_block_latest_access_time: 2
-cache_block_data: 0 
+cache_block_tag: 4
+cache_block_latest_access_time: 7
+cache_block_data: 0
 ----------------------------
 ca: 1
 cache_block_valid: 1
 cache_block_tag: 1
-cache_block_latest_access_time: 1
-cache_block_data: 0 
-############################
-Set: 2
-set_priority_divider: 0
-----------------------------
-ca: 0
-cache_block_valid: 0
-cache_block_tag: 0
-cache_block_latest_access_time: 0
-cache_block_data: 0 
-----------------------------
-ca: 1
-cache_block_valid: 0
-cache_block_tag: 0
-cache_block_latest_access_time: 0
-cache_block_data: 0 
-############################
-Set: 3
-set_priority_divider: 0
-----------------------------
-ca: 0
-cache_block_valid: 0
-cache_block_tag: 0
-cache_block_latest_access_time: 0
-cache_block_data: 0 
-----------------------------
-ca: 1
-cache_block_valid: 0
-cache_block_tag: 0
-cache_block_latest_access_time: 0
-cache_block_data: 0 
-*****************************************************
-=========================== instruction ==============================
-inst_count: 3
-memory_address: 25
-inst_type: 1
-block_address: 25
-set_index: 1
-block_offset: 0
-tag: 3
-first_non_valid_index: -1
-hit/miss: MISS
-******************** CACHE ***************************
-############################
-Set: 0
-set_priority_divider: 0
-----------------------------
-ca: 0
-cache_block_valid: 0
-cache_block_tag: 0
-cache_block_latest_access_time: 0
-cache_block_data: 0 
-----------------------------
-ca: 1
-cache_block_valid: 0
-cache_block_tag: 0
-cache_block_latest_access_time: 0
-cache_block_data: 0 
+cache_block_latest_access_time: 4
+cache_block_data: 0
 ############################
 Set: 1
 set_priority_divider: 0
 ----------------------------
 ca: 0
 cache_block_valid: 1
-cache_block_tag: 2
-cache_block_latest_access_time: 2
-cache_block_data: 0 
+cache_block_tag: 4
+cache_block_latest_access_time: 8
+cache_block_data: 0
 ----------------------------
 ca: 1
 cache_block_valid: 1
-cache_block_tag: 3
-cache_block_latest_access_time: 3
-cache_block_data: 0 
+cache_block_tag: 1
+cache_block_latest_access_time: 5
+cache_block_data: 0
 ############################
 Set: 2
 set_priority_divider: 0
 ----------------------------
 ca: 0
-cache_block_valid: 0
+cache_block_valid: 1
 cache_block_tag: 0
-cache_block_latest_access_time: 0
-cache_block_data: 0 
+cache_block_latest_access_time: 2
+cache_block_data: 0
 ----------------------------
 ca: 1
-cache_block_valid: 0
-cache_block_tag: 0
-cache_block_latest_access_time: 0
-cache_block_data: 0 
+cache_block_valid: 1
+cache_block_tag: 1
+cache_block_latest_access_time: 6
+cache_block_data: 0
 ############################
 Set: 3
 set_priority_divider: 0
 ----------------------------
 ca: 0
-cache_block_valid: 0
+cache_block_valid: 1
 cache_block_tag: 0
-cache_block_latest_access_time: 0
-cache_block_data: 0 
+cache_block_latest_access_time: 3
+cache_block_data: 0
 ----------------------------
 ca: 1
 cache_block_valid: 0
 cache_block_tag: 0
 cache_block_latest_access_time: 0
-cache_block_data: 0 
+cache_block_data: 0
 *****************************************************

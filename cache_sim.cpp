@@ -17,10 +17,8 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
     int total_cache_blocks = cache_size / cache_block_size;
     int total_sets = total_cache_blocks / cache_associativity;
 
-    cache_block_size = 1; // IMPORTANT: cache block size is set to 1 since data read is block data (cache_block_size bytes). Remove this line if data read is word data (1 byte).
-
-    int main_memory[MAIN_MEMORY_BLOCKS] = {0};
-    int cache_block_data[total_sets][cache_associativity][cache_block_size] = {0};
+    int main_memory[MAIN_MEMORY_BLOCKS] = {0}; // block addressable (block size same as cache_block_size)
+    int cache_block_data[total_sets][cache_associativity] = {0}; // block addressable
     int cache_block_valid[total_sets][cache_associativity] = {NOT_PRESENT};
     int cache_block_tag[total_sets][cache_associativity] = {0};
     int cache_block_latest_access_time[total_sets][cache_associativity] = {0};
@@ -45,12 +43,7 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
             cout << "cache_block_tag: " << cache_block_tag[s][ca] << endl;
             cout << "cache_block_latest_access_time: " << cache_block_latest_access_time[s][ca] << endl;
 
-            cout << "cache_block_data: ";
-            for (int i = 0; i < cache_block_size; i++)
-            {
-                cout << cache_block_data[s][ca][i] << " ";
-            }
-            cout << endl;
+            cout << "cache_block_data: " << cache_block_data[s][ca] << endl;
         }
     }
     cout << "*****************************************************" << endl;
@@ -61,22 +54,23 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
     for (auto it = instructions.begin(); it != instructions.end(); it++)
     {
         vector<int> inst = *it;
-        int memory_address = inst.at(0);
+        int memory_address = inst.at(0); // this is block address
         int inst_type = inst.at(1);
 
-        int block_address = memory_address / cache_block_size;
-        int set_index = block_address % total_sets;
-        int block_offset = memory_address % cache_block_size;
-        int tag = memory_address / total_cache_blocks;
+        /*
+            If byte address is:     <tag><set_index><offset>
+            then block address is:  <tag><set_index>
+        */
+
+        int set_index = memory_address % total_sets;
+        int tag = memory_address / total_sets;
 
 #if DEBUG
         cout << "=========================== instruction ==============================" << endl;
         cout << "inst_count: " << inst_count << endl;
         cout << "memory_address: " << memory_address << endl;
         cout << "inst_type: " << inst_type << endl;
-        cout << "block_address: " << block_address << endl;
         cout << "set_index: " << set_index << endl;
-        cout << "block_offset: " << block_offset << endl;
         cout << "tag: " << tag << endl;
 #endif
 
@@ -105,27 +99,17 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
                             int temp_block_valid = cache_block_valid[set_index][set_priority_divider_index];
                             int temp_block_tag = cache_block_tag[set_index][set_priority_divider_index];
                             int temp_block_access_time = cache_block_latest_access_time[set_index][set_priority_divider_index];
-                            uint8_t temp_block_data[cache_block_size];
-                            for (int word_index = 0; word_index < cache_block_size; word_index++)
-                            {
-                                temp_block_data[word_index] = cache_block_data[set_index][set_priority_divider_index][word_index];
-                            }
+                            int temp_block_data = cache_block_data[set_index][set_priority_divider_index];
 
                             cache_block_valid[set_index][set_priority_divider_index] = cache_block_valid[set_index][i];
                             cache_block_tag[set_index][set_priority_divider_index] = cache_block_tag[set_index][i];
                             cache_block_latest_access_time[set_index][set_priority_divider_index] = inst_count;
-                            for (int word_index = 0; word_index < cache_block_size; word_index++)
-                            {
-                                cache_block_data[set_index][set_priority_divider_index][word_index] = cache_block_data[set_index][i][word_index];
-                            }
+                            cache_block_data[set_index][set_priority_divider_index] = cache_block_data[set_index][i];
 
                             cache_block_valid[set_index][i] = temp_block_valid;
                             cache_block_tag[set_index][i] = temp_block_tag;
                             cache_block_latest_access_time[set_index][i] = temp_block_access_time;
-                            for (int word_index = 0; word_index < cache_block_size; word_index++)
-                            {
-                                cache_block_data[set_index][i][word_index] = temp_block_data[word_index];
-                            }
+                            cache_block_data[set_index][i] = temp_block_data;
 
                             set_priority_divider[set_index] += 1;
                         }
@@ -150,10 +134,7 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
                 if (first_non_valid_index != -1)
                 {
                     // load from main memory to cache
-                    for (int i = 0; i < cache_block_size; i++)
-                    {
-                        cache_block_data[set_index][first_non_valid_index][i] = main_memory[(block_address * cache_block_size) + i];
-                    }
+                    cache_block_data[set_index][first_non_valid_index] = main_memory[memory_address];
                     cache_block_tag[set_index][first_non_valid_index] = tag;
                     cache_block_valid[set_index][first_non_valid_index] = PRESENT;
                     cache_block_latest_access_time[set_index][first_non_valid_index] = inst_count;
@@ -180,10 +161,7 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
                     }
 
                     // load from main memory to cache
-                    for (int i = 0; i < cache_block_size; i++)
-                    {
-                        cache_block_data[set_index][LRU_index][i] = main_memory[(block_address * cache_block_size) + i];
-                    }
+                    cache_block_data[set_index][LRU_index] = main_memory[memory_address];
                     cache_block_tag[set_index][LRU_index] = tag;
                     cache_block_valid[set_index][LRU_index] = PRESENT;
                     cache_block_latest_access_time[set_index][LRU_index] = inst_count;
@@ -211,27 +189,17 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
                     int temp_block_valid = cache_block_valid[i][set_priority_divider_index - 1];
                     int temp_block_tag = cache_block_tag[i][set_priority_divider_index - 1];
                     int temp_block_access_time = cache_block_latest_access_time[i][set_priority_divider_index - 1];
-                    uint8_t temp_block_data[cache_block_size];
-                    for (int word_index = 0; word_index < cache_block_size; word_index++)
-                    {
-                        temp_block_data[word_index] = cache_block_data[i][set_priority_divider_index - 1][word_index];
-                    }
+                    int temp_block_data = cache_block_data[i][set_priority_divider_index - 1];
 
                     cache_block_valid[i][set_priority_divider_index - 1] = cache_block_valid[i][j];
                     cache_block_tag[i][set_priority_divider_index - 1] = cache_block_tag[i][j];
                     cache_block_latest_access_time[i][set_priority_divider_index - 1] = cache_block_latest_access_time[i][j];
-                    for (int word_index = 0; word_index < cache_block_size; word_index++)
-                    {
-                        cache_block_data[i][set_priority_divider_index - 1][word_index] = cache_block_data[i][j][word_index];
-                    }
+                    cache_block_data[i][set_priority_divider_index - 1] = cache_block_data[i][j];
 
                     cache_block_valid[i][j] = temp_block_valid;
                     cache_block_tag[i][j] = temp_block_tag;
                     cache_block_latest_access_time[i][j] = temp_block_access_time;
-                    for (int word_index = 0; word_index < cache_block_size; word_index++)
-                    {
-                        cache_block_data[i][j][word_index] = temp_block_data[word_index];
-                    }
+                    cache_block_data[i][j] = temp_block_data;
 
                     set_priority_divider[i] -= 1;
                 }
@@ -257,12 +225,7 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
                 cout << "cache_block_tag: " << cache_block_tag[s][ca] << endl;
                 cout << "cache_block_latest_access_time: " << cache_block_latest_access_time[s][ca] << endl;
 
-                cout << "cache_block_data: ";
-                for (int i = 0; i < cache_block_size; i++)
-                {
-                    cout << cache_block_data[s][ca][i] << " ";
-                }
-                cout << endl;
+                cout << "cache_block_data: " << cache_block_data[s][ca] << endl;
             }
         }
         cout << "*****************************************************" << endl;
@@ -292,7 +255,19 @@ int main(int argc, char **argv)
         {25, R},
     };
 
-    cache_sim(16, 2, 2, 4, instructions2);
+    vector<vector<int>> instructions3{
+        {0, R},
+        {1, R},
+        {2, R},
+        {3, R},
+        {4, R},
+        {5, R},
+        {6, R},
+        {16, R},
+        {17, R},
+    };
+
+    cache_sim(16, 2, 2, 4, instructions3);
 
     return 0;
 }

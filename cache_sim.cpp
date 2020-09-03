@@ -17,7 +17,13 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
     int total_cache_blocks = cache_size / cache_block_size;
     int total_sets = total_cache_blocks / cache_associativity;
 
-    int main_memory[MAIN_MEMORY_BLOCKS] = {0}; // block addressable (block size same as cache_block_size)
+    int main_memory[MAIN_MEMORY_BLOCKS]; // block addressable (block size same as cache_block_size)
+    // initializing main memory
+    for (int i = 0; i < MAIN_MEMORY_BLOCKS; i++)
+    {
+        main_memory[i] = i;
+    }
+
     int cache_block_data[total_sets][cache_associativity] = {0}; // block addressable
     int cache_block_valid[total_sets][cache_associativity] = {NOT_PRESENT};
     int cache_block_tag[total_sets][cache_associativity] = {0};
@@ -42,7 +48,6 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
             cout << "cache_block_valid: " << cache_block_valid[s][ca] << endl;
             cout << "cache_block_tag: " << cache_block_tag[s][ca] << endl;
             cout << "cache_block_latest_access_time: " << cache_block_latest_access_time[s][ca] << endl;
-
             cout << "cache_block_data: " << cache_block_data[s][ca] << endl;
         }
     }
@@ -58,8 +63,8 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
         int inst_type = inst.at(1);
 
         /*
-            If byte address is:     <tag><set_index><offset>
-            then block address is:  <tag><set_index>
+            byte address:   <tag><set_index><offset>
+            block address:  <tag><set_index>
         */
 
         int set_index = memory_address % total_sets;
@@ -89,8 +94,8 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
                         hit_or_miss = HIT;
 
                         if (i < set_priority_divider[set_index])
-                        { // hit in high priority group
-                            cache_block_latest_access_time[set_index][i] = inst_count;
+                        {                                                              // hit in high priority group
+                            cache_block_latest_access_time[set_index][i] = inst_count; // update accessed block time
                         }
                         else
                         { // hit in low priority group => move to high priority group
@@ -103,13 +108,15 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
 
                             cache_block_valid[set_index][set_priority_divider_index] = cache_block_valid[set_index][i];
                             cache_block_tag[set_index][set_priority_divider_index] = cache_block_tag[set_index][i];
-                            cache_block_latest_access_time[set_index][set_priority_divider_index] = inst_count;
+                            cache_block_latest_access_time[set_index][set_priority_divider_index] = cache_block_latest_access_time[set_index][i];
                             cache_block_data[set_index][set_priority_divider_index] = cache_block_data[set_index][i];
 
                             cache_block_valid[set_index][i] = temp_block_valid;
                             cache_block_tag[set_index][i] = temp_block_tag;
                             cache_block_latest_access_time[set_index][i] = temp_block_access_time;
                             cache_block_data[set_index][i] = temp_block_data;
+
+                            cache_block_latest_access_time[set_index][set_priority_divider_index] = inst_count; // update accessed block time
 
                             set_priority_divider[set_index] += 1;
                         }
@@ -142,29 +149,55 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
                 else
                 {
                     // replacement: replace using LRU from low priority group, if low priority group is empty (i.e. all blocks are high priority) then use LRU in high priority group.
-                    int start_index = set_priority_divider[set_index];
-                    int end_index = cache_associativity - 1;
-                    if (set_priority_divider[set_index] == cache_associativity)
-                    { // LRU in high priority group
-                        start_index = 0;
-                    }
 
-                    int least_recent_time = inst_count + 1;
-                    int LRU_index = 0;
-                    for (int i = start_index; i <= end_index; i++)
-                    {
-                        if (cache_block_latest_access_time[set_index][i] < least_recent_time)
+                    if (set_priority_divider[set_index] < cache_associativity)
+                    { // LRU in low priority group
+                        int start_index = set_priority_divider[set_index];
+                        int least_recent_time = inst_count + 1;
+                        int LRU_index = 0;
+                        for (int i = start_index; i < cache_associativity; i++)
                         {
-                            least_recent_time = cache_block_latest_access_time[set_index][i];
-                            LRU_index = i;
+                            if (cache_block_latest_access_time[set_index][i] < least_recent_time)
+                            {
+                                least_recent_time = cache_block_latest_access_time[set_index][i];
+                                LRU_index = i;
+                            }
                         }
-                    }
 
-                    // load from main memory to cache
-                    cache_block_data[set_index][LRU_index] = main_memory[memory_address];
-                    cache_block_tag[set_index][LRU_index] = tag;
-                    cache_block_valid[set_index][LRU_index] = PRESENT;
-                    cache_block_latest_access_time[set_index][LRU_index] = inst_count;
+                        // load from main memory to cache
+                        cache_block_data[set_index][LRU_index] = main_memory[memory_address];
+                        cache_block_tag[set_index][LRU_index] = tag;
+                        cache_block_valid[set_index][LRU_index] = PRESENT;
+                        cache_block_latest_access_time[set_index][LRU_index] = inst_count;
+                    }
+                    else
+                    { // LRU in high priority group
+                        int start_index = 0;
+                        int least_recent_time = inst_count + 1;
+                        int LRU_index = 0;
+                        for (int i = start_index; i < cache_associativity; i++)
+                        {
+                            if (cache_block_latest_access_time[set_index][i] < least_recent_time)
+                            {
+                                least_recent_time = cache_block_latest_access_time[set_index][i];
+                                LRU_index = i;
+                            }
+                        }
+
+                        set_priority_divider[set_index]--;
+                        int set_priority_divider_index = set_priority_divider[set_index];
+
+                        cache_block_data[set_index][LRU_index] = cache_block_data[set_index][set_priority_divider_index];
+                        cache_block_tag[set_index][LRU_index] = cache_block_tag[set_index][set_priority_divider_index];
+                        cache_block_valid[set_index][LRU_index] = cache_block_valid[set_index][set_priority_divider_index];
+                        cache_block_latest_access_time[set_index][LRU_index] = cache_block_latest_access_time[set_index][set_priority_divider_index];
+
+                        // load from main memory to cache
+                        cache_block_data[set_index][set_priority_divider_index] = main_memory[memory_address];
+                        cache_block_tag[set_index][set_priority_divider_index] = tag;
+                        cache_block_valid[set_index][set_priority_divider_index] = PRESENT;
+                        cache_block_latest_access_time[set_index][set_priority_divider_index] = inst_count;
+                    }
                 }
             }
         }
@@ -184,6 +217,11 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
             {
                 if (j < set_priority_divider[i] && inst_count - cache_block_latest_access_time[i][j] >= T)
                 {
+#if DEBUG
+                    cout << "moving line to low priority group..." << endl;
+                    cout << "set: " << i << endl;
+                    cout << "ca: " << j << endl;
+#endif
                     int set_priority_divider_index = set_priority_divider[set_index];
 
                     int temp_block_valid = cache_block_valid[i][set_priority_divider_index - 1];
@@ -224,7 +262,6 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
                 cout << "cache_block_valid: " << cache_block_valid[s][ca] << endl;
                 cout << "cache_block_tag: " << cache_block_tag[s][ca] << endl;
                 cout << "cache_block_latest_access_time: " << cache_block_latest_access_time[s][ca] << endl;
-
                 cout << "cache_block_data: " << cache_block_data[s][ca] << endl;
             }
         }
@@ -258,6 +295,7 @@ int main(int argc, char **argv)
     vector<vector<int>> instructions3{
         {0, R},
         {1, R},
+        {1, R},
         {2, R},
         {3, R},
         {4, R},
@@ -267,7 +305,16 @@ int main(int argc, char **argv)
         {17, R},
     };
 
-    cache_sim(16, 2, 2, 4, instructions3);
+    vector<vector<int>> instructions4{
+        {1, R},
+        {5, R},
+        {1, R},
+        {5, R},
+        {9, R},
+        {10, R},
+    };
+
+    cache_sim(16, 2, 2, 4, instructions4);
 
     return 0;
 }

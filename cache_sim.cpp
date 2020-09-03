@@ -18,47 +18,62 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
     int total_sets = total_cache_blocks / cache_associativity;
 
     int main_memory[MAIN_MEMORY_BLOCKS]; // block addressable (block size same as cache_block_size)
-    // initializing main memory
+    int test_memory[MAIN_MEMORY_BLOCKS];
+
+    // initializing memory
     for (int i = 0; i < MAIN_MEMORY_BLOCKS; i++)
     {
         main_memory[i] = i;
+        test_memory[i] = i;
     }
 
     int cache_block_data[total_sets][cache_associativity] = {0}; // block addressable
     int cache_block_valid[total_sets][cache_associativity] = {NOT_PRESENT};
     int cache_block_tag[total_sets][cache_associativity] = {0};
+    int cache_block_dirty[total_sets][cache_associativity] = {0};
     int cache_block_latest_access_time[total_sets][cache_associativity] = {0};
     int set_priority_divider[total_sets] = {0}; // = total lines in HIGH PRIORITY group = index of first line in LOW PRIORITY group
 
 #if DEBUG
-    cout << "total_cache_blocks: " << total_cache_blocks << endl;
-    cout << "total_sets: " << total_sets << endl;
+    std::cout << "total_cache_blocks: " << total_cache_blocks << endl;
+    std::cout << "total_sets: " << total_sets << endl;
 
-    cout << "******************** CACHE ***************************" << endl;
+    std::cout << "******************** CACHE ***************************" << endl;
     for (int s = 0; s < total_sets; s++)
     {
-        cout << "############################" << endl;
-        cout << "Set: " << s << endl;
-        cout << "set_priority_divider: " << set_priority_divider[s] << endl;
+        std::cout << "############################" << endl;
+        std::cout << "Set: " << s << endl;
+        std::cout << "set_priority_divider: " << set_priority_divider[s] << endl;
 
         for (int ca = 0; ca < cache_associativity; ca++)
         {
-            cout << "----------------------------" << endl;
-            cout << "ca: " << ca << endl;
-            cout << "cache_block_valid: " << cache_block_valid[s][ca] << endl;
-            cout << "cache_block_tag: " << cache_block_tag[s][ca] << endl;
-            cout << "cache_block_latest_access_time: " << cache_block_latest_access_time[s][ca] << endl;
-            cout << "cache_block_data: " << cache_block_data[s][ca] << endl;
+            std::cout << "----------------------------" << endl;
+            std::cout << "ca: " << ca << endl;
+            std::cout << "cache_block_valid: " << cache_block_valid[s][ca] << endl;
+            std::cout << "cache_block_tag: " << cache_block_tag[s][ca] << endl;
+            std::cout << "cache_block_latest_access_time: " << cache_block_latest_access_time[s][ca] << endl;
+            std::cout << "cache_block_dirty: " << cache_block_dirty[s][ca] << endl;
+            std::cout << "cache_block_data: " << cache_block_data[s][ca] << endl;
         }
     }
-    cout << "*****************************************************" << endl;
+    std::cout << "*****************************************************" << endl;
 
 #endif
 
     int inst_count = 0;
+    int total_reads = 0;
+    int total_read_hits = 0;
+    int total_writes = 0;
+    int total_write_hits = 0;
+
     for (auto it = instructions.begin(); it != instructions.end(); it++)
     {
         vector<int> inst = *it;
+        if (inst.size() < 2)
+        {
+            std::cout << "Instruction error" << endl;
+            exit(EXIT_FAILURE);
+        }
         int memory_address = inst.at(0); // this is block address
         int inst_type = inst.at(1);
 
@@ -71,18 +86,20 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
         int tag = memory_address / total_sets;
 
 #if DEBUG
-        cout << "=========================== instruction ==============================" << endl;
-        cout << "inst_count: " << inst_count << endl;
-        cout << "memory_address: " << memory_address << endl;
-        cout << "inst_type: " << inst_type << endl;
-        cout << "set_index: " << set_index << endl;
-        cout << "tag: " << tag << endl;
+        std::cout << "=========================== instruction ==============================" << endl;
+        std::cout << "inst_count: " << inst_count << endl;
+        std::cout << "memory_address: " << memory_address << endl;
+        std::cout << "inst_type: " << (inst_type == R ? "R" : "W") << endl;
+        std::cout << "set_index: " << set_index << endl;
+        std::cout << "tag: " << tag << endl;
 #endif
 
         int hit_or_miss = MISS;
 
         if (inst_type == R)
         {
+            total_reads++;
+            int read_result = 0;
             int first_non_valid_index = -1;
             for (int i = 0; i < cache_associativity; i++)
             {
@@ -92,27 +109,34 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
                     {
                         // hit
                         hit_or_miss = HIT;
+                        total_read_hits++;
+                        read_result = cache_block_data[set_index][i];
 
                         if (i < set_priority_divider[set_index])
-                        {                                                              // hit in high priority group
+                        {
+                            // hit in high priority group
                             cache_block_latest_access_time[set_index][i] = inst_count; // update accessed block time
                         }
                         else
-                        { // hit in low priority group => move to high priority group
+                        {
+                            // hit in low priority group => move to high priority group
                             int set_priority_divider_index = set_priority_divider[set_index];
 
                             int temp_block_valid = cache_block_valid[set_index][set_priority_divider_index];
                             int temp_block_tag = cache_block_tag[set_index][set_priority_divider_index];
+                            int temp_block_dirty = cache_block_dirty[set_index][set_priority_divider_index];
                             int temp_block_access_time = cache_block_latest_access_time[set_index][set_priority_divider_index];
                             int temp_block_data = cache_block_data[set_index][set_priority_divider_index];
 
                             cache_block_valid[set_index][set_priority_divider_index] = cache_block_valid[set_index][i];
                             cache_block_tag[set_index][set_priority_divider_index] = cache_block_tag[set_index][i];
+                            cache_block_dirty[set_index][set_priority_divider_index] = cache_block_dirty[set_index][i];
                             cache_block_latest_access_time[set_index][set_priority_divider_index] = cache_block_latest_access_time[set_index][i];
                             cache_block_data[set_index][set_priority_divider_index] = cache_block_data[set_index][i];
 
                             cache_block_valid[set_index][i] = temp_block_valid;
                             cache_block_tag[set_index][i] = temp_block_tag;
+                            cache_block_dirty[set_index][i] = temp_block_dirty;
                             cache_block_latest_access_time[set_index][i] = temp_block_access_time;
                             cache_block_data[set_index][i] = temp_block_data;
 
@@ -133,16 +157,19 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
             }
 
 #if DEBUG
-            cout << "first_non_valid_index: " << first_non_valid_index << endl;
+            std::cout << "first_non_valid_index: " << first_non_valid_index << endl;
 #endif
 
             if (hit_or_miss == MISS)
             {
+                read_result = main_memory[memory_address];
+
                 if (first_non_valid_index != -1)
                 {
                     // load from main memory to cache
                     cache_block_data[set_index][first_non_valid_index] = main_memory[memory_address];
                     cache_block_tag[set_index][first_non_valid_index] = tag;
+                    cache_block_dirty[set_index][first_non_valid_index] = 0;
                     cache_block_valid[set_index][first_non_valid_index] = PRESENT;
                     cache_block_latest_access_time[set_index][first_non_valid_index] = inst_count;
                 }
@@ -151,7 +178,8 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
                     // replacement: replace using LRU from low priority group, if low priority group is empty (i.e. all blocks are high priority) then use LRU in high priority group.
 
                     if (set_priority_divider[set_index] < cache_associativity)
-                    { // LRU in low priority group
+                    {
+                        // LRU in low priority group
                         int start_index = set_priority_divider[set_index];
                         int least_recent_time = inst_count + 1;
                         int LRU_index = 0;
@@ -164,14 +192,23 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
                             }
                         }
 
+                        if (cache_block_dirty[set_index][LRU_index] == 1)
+                        {
+                            // when replacing dirty block, write back to main memory
+                            int main_memory_address = (cache_block_tag[set_index][LRU_index] * total_sets) + set_index;
+                            main_memory[main_memory_address] = cache_block_data[set_index][LRU_index];
+                        }
+
                         // load from main memory to cache
                         cache_block_data[set_index][LRU_index] = main_memory[memory_address];
                         cache_block_tag[set_index][LRU_index] = tag;
+                        cache_block_dirty[set_index][LRU_index] = 0;
                         cache_block_valid[set_index][LRU_index] = PRESENT;
                         cache_block_latest_access_time[set_index][LRU_index] = inst_count;
                     }
                     else
-                    { // LRU in high priority group
+                    {
+                        // LRU in high priority group
                         int start_index = 0;
                         int least_recent_time = inst_count + 1;
                         int LRU_index = 0;
@@ -189,24 +226,207 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
 
                         cache_block_data[set_index][LRU_index] = cache_block_data[set_index][set_priority_divider_index];
                         cache_block_tag[set_index][LRU_index] = cache_block_tag[set_index][set_priority_divider_index];
+                        cache_block_dirty[set_index][LRU_index] = cache_block_dirty[set_index][set_priority_divider_index];
                         cache_block_valid[set_index][LRU_index] = cache_block_valid[set_index][set_priority_divider_index];
                         cache_block_latest_access_time[set_index][LRU_index] = cache_block_latest_access_time[set_index][set_priority_divider_index];
+
+                        if (cache_block_dirty[set_index][set_priority_divider_index] == 1)
+                        {
+                            // when replacing dirty block, write back to main memory
+                            int main_memory_address = (cache_block_tag[set_index][set_priority_divider_index] * total_sets) + set_index;
+                            main_memory[main_memory_address] = cache_block_data[set_index][set_priority_divider_index];
+                        }
 
                         // load from main memory to cache
                         cache_block_data[set_index][set_priority_divider_index] = main_memory[memory_address];
                         cache_block_tag[set_index][set_priority_divider_index] = tag;
+                        cache_block_dirty[set_index][set_priority_divider_index] = 0;
+                        cache_block_valid[set_index][set_priority_divider_index] = PRESENT;
+                        cache_block_latest_access_time[set_index][set_priority_divider_index] = inst_count;
+                    }
+                }
+            }
+
+#if DEBUG
+            cout << "Read result: " << read_result << endl;
+            cout << "Read result from test_memory: " << test_memory[memory_address] << endl;
+            if (read_result == test_memory[memory_address])
+            {
+                cout << "Correct read!!" << endl;
+            }
+            else
+            {
+                cout << "Wrong read!!" << endl;
+            }
+#endif
+        }
+        else if (inst_type == W)
+        {
+            // write back with write allocate
+
+            if (inst.size() != 3)
+            {
+                std::cout << "Instruction error" << endl;
+                exit(EXIT_FAILURE);
+            }
+            int write_data = inst.at(2);
+
+            test_memory[memory_address] = write_data;
+            total_writes++;
+
+            int first_non_valid_index = -1;
+            for (int i = 0; i < cache_associativity; i++)
+            {
+                if (cache_block_valid[set_index][i] == PRESENT)
+                {
+                    if (cache_block_tag[set_index][i] == tag)
+                    {
+                        // hit
+                        hit_or_miss = HIT;
+                        total_write_hits++;
+
+                        if (i < set_priority_divider[set_index])
+                        {
+                            // hit in high priority group
+                            cache_block_data[set_index][i] = write_data;
+                            cache_block_dirty[set_index][i] = 1;
+                            cache_block_latest_access_time[set_index][i] = inst_count; // update accessed block time
+                        }
+                        else
+                        {
+                            // hit in low priority group => move to high priority group
+                            int set_priority_divider_index = set_priority_divider[set_index];
+
+                            int temp_block_valid = cache_block_valid[set_index][set_priority_divider_index];
+                            int temp_block_tag = cache_block_tag[set_index][set_priority_divider_index];
+                            int temp_block_dirty = cache_block_dirty[set_index][set_priority_divider_index];
+                            int temp_block_access_time = cache_block_latest_access_time[set_index][set_priority_divider_index];
+                            int temp_block_data = cache_block_data[set_index][set_priority_divider_index];
+
+                            cache_block_valid[set_index][set_priority_divider_index] = cache_block_valid[set_index][i];
+                            cache_block_tag[set_index][set_priority_divider_index] = cache_block_tag[set_index][i];
+                            cache_block_dirty[set_index][set_priority_divider_index] = cache_block_dirty[set_index][i];
+                            cache_block_latest_access_time[set_index][set_priority_divider_index] = cache_block_latest_access_time[set_index][i];
+                            cache_block_data[set_index][set_priority_divider_index] = cache_block_data[set_index][i];
+
+                            cache_block_valid[set_index][i] = temp_block_valid;
+                            cache_block_tag[set_index][i] = temp_block_tag;
+                            cache_block_dirty[set_index][i] = temp_block_dirty;
+                            cache_block_latest_access_time[set_index][i] = temp_block_access_time;
+                            cache_block_data[set_index][i] = temp_block_data;
+
+                            cache_block_data[set_index][set_priority_divider_index] = write_data;
+                            cache_block_dirty[set_index][set_priority_divider_index] = 1;
+                            cache_block_latest_access_time[set_index][set_priority_divider_index] = inst_count; // update accessed block time
+
+                            set_priority_divider[set_index] += 1;
+                        }
+                        break;
+                    }
+                }
+                else
+                {
+                    if (first_non_valid_index == -1)
+                    {
+                        first_non_valid_index = i;
+                    }
+                }
+            }
+
+#if DEBUG
+            std::cout << "first_non_valid_index: " << first_non_valid_index << endl;
+#endif
+
+            if (hit_or_miss == MISS)
+            {
+                // write to main memory
+                main_memory[memory_address] = write_data;
+
+                if (first_non_valid_index != -1)
+                {
+                    // load from main memory to cache
+                    cache_block_data[set_index][first_non_valid_index] = main_memory[memory_address];
+                    cache_block_tag[set_index][first_non_valid_index] = tag;
+                    cache_block_valid[set_index][first_non_valid_index] = PRESENT;
+                    cache_block_dirty[set_index][first_non_valid_index] = 0;
+                    cache_block_latest_access_time[set_index][first_non_valid_index] = inst_count;
+                }
+                else
+                {
+                    // replacement: replace using LRU from low priority group, if low priority group is empty (i.e. all blocks are high priority) then use LRU in high priority group.
+
+                    if (set_priority_divider[set_index] < cache_associativity)
+                    {
+                        // LRU in low priority group
+                        int start_index = set_priority_divider[set_index];
+                        int least_recent_time = inst_count + 1;
+                        int LRU_index = 0;
+                        for (int i = start_index; i < cache_associativity; i++)
+                        {
+                            if (cache_block_latest_access_time[set_index][i] < least_recent_time)
+                            {
+                                least_recent_time = cache_block_latest_access_time[set_index][i];
+                                LRU_index = i;
+                            }
+                        }
+
+                        if (cache_block_dirty[set_index][LRU_index] == 1)
+                        {
+                            // when replacing dirty block, write back to main memory
+                            int main_memory_address = (cache_block_tag[set_index][LRU_index] * total_sets) + set_index;
+                            main_memory[main_memory_address] = cache_block_data[set_index][LRU_index];
+                        }
+
+                        // load from main memory to cache
+                        cache_block_data[set_index][LRU_index] = main_memory[memory_address];
+                        cache_block_tag[set_index][LRU_index] = tag;
+                        cache_block_valid[set_index][LRU_index] = PRESENT;
+                        cache_block_dirty[set_index][LRU_index] = 0;
+                        cache_block_latest_access_time[set_index][LRU_index] = inst_count;
+                    }
+                    else
+                    {
+                        // LRU in high priority group
+                        int start_index = 0;
+                        int least_recent_time = inst_count + 1;
+                        int LRU_index = 0;
+                        for (int i = start_index; i < cache_associativity; i++)
+                        {
+                            if (cache_block_latest_access_time[set_index][i] < least_recent_time)
+                            {
+                                least_recent_time = cache_block_latest_access_time[set_index][i];
+                                LRU_index = i;
+                            }
+                        }
+
+                        set_priority_divider[set_index]--;
+                        int set_priority_divider_index = set_priority_divider[set_index];
+
+                        cache_block_data[set_index][LRU_index] = cache_block_data[set_index][set_priority_divider_index];
+                        cache_block_tag[set_index][LRU_index] = cache_block_tag[set_index][set_priority_divider_index];
+                        cache_block_dirty[set_index][LRU_index] = cache_block_dirty[set_index][set_priority_divider_index];
+                        cache_block_valid[set_index][LRU_index] = cache_block_valid[set_index][set_priority_divider_index];
+                        cache_block_latest_access_time[set_index][LRU_index] = cache_block_latest_access_time[set_index][set_priority_divider_index];
+
+                        if (cache_block_dirty[set_index][set_priority_divider_index] == 1)
+                        {
+                            // when replacing dirty block, write back to main memory
+                            int main_memory_address = (cache_block_tag[set_index][set_priority_divider_index] * total_sets) + set_index;
+                            main_memory[main_memory_address] = cache_block_data[set_index][set_priority_divider_index];
+                        }
+                        // load from main memory to cache
+                        cache_block_data[set_index][set_priority_divider_index] = main_memory[memory_address];
+                        cache_block_tag[set_index][set_priority_divider_index] = tag;
+                        cache_block_dirty[set_index][set_priority_divider_index] = 0;
                         cache_block_valid[set_index][set_priority_divider_index] = PRESENT;
                         cache_block_latest_access_time[set_index][set_priority_divider_index] = inst_count;
                     }
                 }
             }
         }
-        else if (inst_type == W)
-        {
-        }
         else
         {
-            cout << "Incorrect inst type" << endl;
+            std::cout << "Incorrect inst type" << endl;
             return -1;
         }
 
@@ -218,24 +438,27 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
                 if (j < set_priority_divider[i] && inst_count - cache_block_latest_access_time[i][j] >= T)
                 {
 #if DEBUG
-                    cout << "moving line to low priority group..." << endl;
-                    cout << "set: " << i << endl;
-                    cout << "ca: " << j << endl;
+                    std::cout << "moving line to low priority group..." << endl;
+                    std::cout << "set: " << i << endl;
+                    std::cout << "ca: " << j << endl;
 #endif
                     int set_priority_divider_index = set_priority_divider[set_index];
 
                     int temp_block_valid = cache_block_valid[i][set_priority_divider_index - 1];
                     int temp_block_tag = cache_block_tag[i][set_priority_divider_index - 1];
+                    int temp_block_dirty = cache_block_dirty[i][set_priority_divider_index - 1];
                     int temp_block_access_time = cache_block_latest_access_time[i][set_priority_divider_index - 1];
                     int temp_block_data = cache_block_data[i][set_priority_divider_index - 1];
 
                     cache_block_valid[i][set_priority_divider_index - 1] = cache_block_valid[i][j];
                     cache_block_tag[i][set_priority_divider_index - 1] = cache_block_tag[i][j];
+                    cache_block_dirty[i][set_priority_divider_index - 1] = cache_block_dirty[i][j];
                     cache_block_latest_access_time[i][set_priority_divider_index - 1] = cache_block_latest_access_time[i][j];
                     cache_block_data[i][set_priority_divider_index - 1] = cache_block_data[i][j];
 
                     cache_block_valid[i][j] = temp_block_valid;
                     cache_block_tag[i][j] = temp_block_tag;
+                    cache_block_dirty[i][j] = temp_block_dirty;
                     cache_block_latest_access_time[i][j] = temp_block_access_time;
                     cache_block_data[i][j] = temp_block_data;
 
@@ -247,42 +470,55 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
         inst_count++;
 
 #if DEBUG
-        cout << "hit/miss: " << (hit_or_miss == HIT ? "HIT" : "MISS") << endl;
-        cout << "******************** CACHE ***************************" << endl;
+        std::cout << "hit/miss: " << (hit_or_miss == HIT ? "HIT" : "MISS") << endl;
+        std::cout << "******************** CACHE ***************************" << endl;
         for (int s = 0; s < total_sets; s++)
         {
-            cout << "############################" << endl;
-            cout << "Set: " << s << endl;
-            cout << "set_priority_divider: " << set_priority_divider[s] << endl;
+            std::cout << "############################" << endl;
+            std::cout << "Set: " << s << endl;
+            std::cout << "set_priority_divider: " << set_priority_divider[s] << endl;
 
             for (int ca = 0; ca < cache_associativity; ca++)
             {
-                cout << "----------------------------" << endl;
-                cout << "ca: " << ca << endl;
-                cout << "cache_block_valid: " << cache_block_valid[s][ca] << endl;
-                cout << "cache_block_tag: " << cache_block_tag[s][ca] << endl;
-                cout << "cache_block_latest_access_time: " << cache_block_latest_access_time[s][ca] << endl;
-                cout << "cache_block_data: " << cache_block_data[s][ca] << endl;
+                std::cout << "----------------------------" << endl;
+                std::cout << "ca: " << ca << endl;
+                std::cout << "cache_block_valid: " << cache_block_valid[s][ca] << endl;
+                std::cout << "cache_block_tag: " << cache_block_tag[s][ca] << endl;
+                std::cout << "cache_block_latest_access_time: " << cache_block_latest_access_time[s][ca] << endl;
+                std::cout << "cache_block_dirty: " << cache_block_dirty[s][ca] << endl;
+                std::cout << "cache_block_data: " << cache_block_data[s][ca] << endl;
             }
         }
-        cout << "*****************************************************" << endl;
+        std::cout << "*****************************************************" << endl;
 #endif
     }
+
+    std::cout << "Cache statistics: " << endl;
+    std::cout << "Number of Accesses: " << inst_count << endl;
+    std::cout << "Number of Reads: " << total_reads << endl;
+    std::cout << "Number of Read Hits: " << total_read_hits << endl;
+    std::cout << "Number of Read Misses: " << total_reads - total_read_hits << endl;
+    std::cout << "Number of Writes: " << total_writes << endl;
+    std::cout << "Number of Write Hits: " << total_write_hits << endl;
+    std::cout << "Number of Write Misses: " << total_writes - total_write_hits << endl;
+    std::cout << "Hit ratio: " << (float)(total_read_hits + total_write_hits) / inst_count << endl;
 
     return 0;
 }
 
 int main(int argc, char **argv)
 {
-
     vector<vector<int>> instructions1{
         {1, W, 1},
         {5, W, 5},
         {6, W, 6},
         {1, R},
-        {9, R},
-        {17, R},
-        {25, R},
+        {0, W, 0},
+        {5, R},
+        {7, W, 7},
+        {3, W, 3},
+        {5, W, 50},
+        {7, R},
     };
 
     vector<vector<int>> instructions2{
@@ -312,9 +548,20 @@ int main(int argc, char **argv)
         {5, R},
         {9, R},
         {10, R},
+        {10, R},
     };
 
-    cache_sim(16, 2, 2, 4, instructions4);
+    vector<vector<int>> instructions5{
+        {1, W, 10},
+        {2, W, 20},
+        {1, R},
+    };
+
+    int cache_size = 16;
+    int cache_block_size = 2;
+    int cache_associativity = 2;
+    int T = 4;
+    cache_sim(cache_size, cache_block_size, cache_associativity, T, instructions3);
 
     return 0;
 }

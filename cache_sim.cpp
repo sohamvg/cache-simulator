@@ -1,5 +1,9 @@
 #include <iostream>
 #include <vector>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <algorithm>
 
 using namespace std;
 
@@ -35,6 +39,10 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
     int set_priority_divider[total_sets] = {0}; // = total lines in HIGH PRIORITY group = index of first line in LOW PRIORITY group
 
 #if DEBUG
+    std::cout << "cache_size: " << cache_size << endl;
+    std::cout << "cache_block_size: " << cache_block_size << endl;
+    std::cout << "cache_associativity: " << cache_associativity << endl;
+    std::cout << "T: " << T << endl;
     std::cout << "total_cache_blocks: " << total_cache_blocks << endl;
     std::cout << "total_sets: " << total_sets << endl;
 
@@ -508,60 +516,80 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
 
 int main(int argc, char **argv)
 {
-    vector<vector<int>> instructions1{
-        {1, W, 1},
-        {5, W, 5},
-        {6, W, 6},
-        {1, R},
-        {0, W, 0},
-        {5, R},
-        {7, W, 7},
-        {3, W, 3},
-        {5, W, 50},
-        {7, R},
-    };
+    if (argc < 2)
+    {
+        std::cout << "Enter all arguments" << endl;
+        exit(EXIT_SUCCESS);
+    }
 
-    vector<vector<int>> instructions2{
-        {1, R},
-        {9, R},
-        {17, R},
-        {25, R},
-    };
+    ifstream infile(argv[1]);
 
-    vector<vector<int>> instructions3{
-        {0, R},
-        {1, R},
-        {1, R},
-        {2, R},
-        {3, R},
-        {4, R},
-        {5, R},
-        {6, R},
-        {16, R},
-        {17, R},
-    };
+    int cache_size, cache_block_size, cache_associativity, T;
+    vector<vector<int>> instructions;
 
-    vector<vector<int>> instructions4{
-        {1, R},
-        {5, R},
-        {1, R},
-        {5, R},
-        {9, R},
-        {10, R},
-        {10, R},
-    };
+    string line;
+    int line_count = 0;
+    while (getline(infile, line))
+    {
+        if (line.size() > 0 && line[0] != '#')
+        {
+            line_count++;
+            istringstream iss(line);
 
-    vector<vector<int>> instructions5{
-        {1, W, 10},
-        {2, W, 20},
-        {1, R},
-    };
+            if (line_count == 1)
+            {
+                iss >> cache_size;
+            }
+            else if (line_count == 2)
+            {
+                iss >> cache_block_size;
+            }
+            else if (line_count == 3)
+            {
+                iss >> cache_associativity;
+            }
+            else if (line_count == 4)
+            {
+                iss >> T;
+            }
+            else
+            {
+                string memory_address, read_or_write, write_data;
+                vector<int> inst;
 
-    int cache_size = 16;
-    int cache_block_size = 2;
-    int cache_associativity = 2;
-    int T = 4;
-    cache_sim(cache_size, cache_block_size, cache_associativity, T, instructions3);
+                if (getline(iss, memory_address, ','))
+                {
+                    inst.push_back(stoi(memory_address));
+                }
+
+                if (getline(iss, read_or_write, ','))
+                {
+                    read_or_write.erase(remove(read_or_write.begin(), read_or_write.end(), ' '), read_or_write.end());
+                    if (read_or_write == "R")
+                    {
+                        inst.push_back(R);
+                    }
+                    else if (read_or_write == "W")
+                    {
+                        inst.push_back(W);
+                    }
+                    else
+                    {
+                        cout << "Invalid input" << endl;
+                        exit(EXIT_FAILURE);
+                    }
+                }
+
+                if (getline(iss, write_data, ','))
+                {
+                    inst.push_back(stoi(write_data));
+                }
+                instructions.push_back(inst);
+            }
+        }
+    }
+
+    cache_sim(cache_size, cache_block_size, cache_associativity, T, instructions);
 
     return 0;
 }

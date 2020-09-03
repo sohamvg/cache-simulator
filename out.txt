@@ -1,3 +1,7 @@
+cache_size: 16
+cache_block_size: 2
+cache_associativity: 2
+T: 4
 total_cache_blocks: 8
 total_sets: 4
 ******************** CACHE ***************************
@@ -72,14 +76,11 @@ cache_block_data: 0
 *****************************************************
 =========================== instruction ==============================
 inst_count: 0
-memory_address: 0
-inst_type: R
-set_index: 0
+memory_address: 1
+inst_type: W
+set_index: 1
 tag: 0
 first_non_valid_index: 0
-Read result: 0
-Read result from test_memory: 0
-Correct read!!
 hit/miss: MISS
 ******************** CACHE ***************************
 ############################
@@ -87,7 +88,7 @@ Set: 0
 set_priority_divider: 0
 ----------------------------
 ca: 0
-cache_block_valid: 1
+cache_block_valid: 0
 cache_block_tag: 0
 cache_block_latest_access_time: 0
 cache_block_dirty: 0
@@ -104,11 +105,11 @@ Set: 1
 set_priority_divider: 0
 ----------------------------
 ca: 0
-cache_block_valid: 0
+cache_block_valid: 1
 cache_block_tag: 0
 cache_block_latest_access_time: 0
 cache_block_dirty: 0
-cache_block_data: 0
+cache_block_data: 1
 ----------------------------
 ca: 1
 cache_block_valid: 0
@@ -153,14 +154,11 @@ cache_block_data: 0
 *****************************************************
 =========================== instruction ==============================
 inst_count: 1
-memory_address: 1
-inst_type: R
+memory_address: 5
+inst_type: W
 set_index: 1
-tag: 0
-first_non_valid_index: 0
-Read result: 1
-Read result from test_memory: 1
-Correct read!!
+tag: 1
+first_non_valid_index: 1
 hit/miss: MISS
 ******************** CACHE ***************************
 ############################
@@ -168,7 +166,7 @@ Set: 0
 set_priority_divider: 0
 ----------------------------
 ca: 0
-cache_block_valid: 1
+cache_block_valid: 0
 cache_block_tag: 0
 cache_block_latest_access_time: 0
 cache_block_dirty: 0
@@ -187,16 +185,16 @@ set_priority_divider: 0
 ca: 0
 cache_block_valid: 1
 cache_block_tag: 0
-cache_block_latest_access_time: 1
+cache_block_latest_access_time: 0
 cache_block_dirty: 0
 cache_block_data: 1
 ----------------------------
 ca: 1
-cache_block_valid: 0
-cache_block_tag: 0
-cache_block_latest_access_time: 0
+cache_block_valid: 1
+cache_block_tag: 1
+cache_block_latest_access_time: 1
 cache_block_dirty: 0
-cache_block_data: 0
+cache_block_data: 5
 ############################
 Set: 2
 set_priority_divider: 0
@@ -234,22 +232,19 @@ cache_block_data: 0
 *****************************************************
 =========================== instruction ==============================
 inst_count: 2
-memory_address: 1
-inst_type: R
-set_index: 1
-tag: 0
-first_non_valid_index: -1
-Read result: 1
-Read result from test_memory: 1
-Correct read!!
-hit/miss: HIT
+memory_address: 6
+inst_type: W
+set_index: 2
+tag: 1
+first_non_valid_index: 0
+hit/miss: MISS
 ******************** CACHE ***************************
 ############################
 Set: 0
 set_priority_divider: 0
 ----------------------------
 ca: 0
-cache_block_valid: 1
+cache_block_valid: 0
 cache_block_tag: 0
 cache_block_latest_access_time: 0
 cache_block_dirty: 0
@@ -263,31 +258,31 @@ cache_block_dirty: 0
 cache_block_data: 0
 ############################
 Set: 1
-set_priority_divider: 1
+set_priority_divider: 0
 ----------------------------
 ca: 0
 cache_block_valid: 1
 cache_block_tag: 0
-cache_block_latest_access_time: 2
+cache_block_latest_access_time: 0
 cache_block_dirty: 0
 cache_block_data: 1
 ----------------------------
 ca: 1
-cache_block_valid: 0
-cache_block_tag: 0
-cache_block_latest_access_time: 0
+cache_block_valid: 1
+cache_block_tag: 1
+cache_block_latest_access_time: 1
 cache_block_dirty: 0
-cache_block_data: 0
+cache_block_data: 5
 ############################
 Set: 2
 set_priority_divider: 0
 ----------------------------
 ca: 0
-cache_block_valid: 0
-cache_block_tag: 0
-cache_block_latest_access_time: 0
+cache_block_valid: 1
+cache_block_tag: 1
+cache_block_latest_access_time: 2
 cache_block_dirty: 0
-cache_block_data: 0
+cache_block_data: 6
 ----------------------------
 ca: 1
 cache_block_valid: 0
@@ -315,22 +310,22 @@ cache_block_data: 0
 *****************************************************
 =========================== instruction ==============================
 inst_count: 3
-memory_address: 2
+memory_address: 1
 inst_type: R
-set_index: 2
+set_index: 1
 tag: 0
-first_non_valid_index: 0
-Read result: 2
-Read result from test_memory: 2
+first_non_valid_index: -1
+Read result: 1
+Read result from test_memory: 1
 Correct read!!
-hit/miss: MISS
+hit/miss: HIT
 ******************** CACHE ***************************
 ############################
 Set: 0
 set_priority_divider: 0
 ----------------------------
 ca: 0
-cache_block_valid: 1
+cache_block_valid: 0
 cache_block_tag: 0
 cache_block_latest_access_time: 0
 cache_block_dirty: 0
@@ -349,26 +344,26 @@ set_priority_divider: 1
 ca: 0
 cache_block_valid: 1
 cache_block_tag: 0
-cache_block_latest_access_time: 2
+cache_block_latest_access_time: 3
 cache_block_dirty: 0
 cache_block_data: 1
 ----------------------------
 ca: 1
-cache_block_valid: 0
-cache_block_tag: 0
-cache_block_latest_access_time: 0
+cache_block_valid: 1
+cache_block_tag: 1
+cache_block_latest_access_time: 1
 cache_block_dirty: 0
-cache_block_data: 0
+cache_block_data: 5
 ############################
 Set: 2
 set_priority_divider: 0
 ----------------------------
 ca: 0
 cache_block_valid: 1
-cache_block_tag: 0
-cache_block_latest_access_time: 3
+cache_block_tag: 1
+cache_block_latest_access_time: 2
 cache_block_dirty: 0
-cache_block_data: 2
+cache_block_data: 6
 ----------------------------
 ca: 1
 cache_block_valid: 0
@@ -396,14 +391,11 @@ cache_block_data: 0
 *****************************************************
 =========================== instruction ==============================
 inst_count: 4
-memory_address: 3
-inst_type: R
-set_index: 3
+memory_address: 0
+inst_type: W
+set_index: 0
 tag: 0
 first_non_valid_index: 0
-Read result: 3
-Read result from test_memory: 3
-Correct read!!
 hit/miss: MISS
 ******************** CACHE ***************************
 ############################
@@ -413,7 +405,7 @@ set_priority_divider: 0
 ca: 0
 cache_block_valid: 1
 cache_block_tag: 0
-cache_block_latest_access_time: 0
+cache_block_latest_access_time: 4
 cache_block_dirty: 0
 cache_block_data: 0
 ----------------------------
@@ -430,26 +422,26 @@ set_priority_divider: 1
 ca: 0
 cache_block_valid: 1
 cache_block_tag: 0
-cache_block_latest_access_time: 2
+cache_block_latest_access_time: 3
 cache_block_dirty: 0
 cache_block_data: 1
 ----------------------------
 ca: 1
-cache_block_valid: 0
-cache_block_tag: 0
-cache_block_latest_access_time: 0
+cache_block_valid: 1
+cache_block_tag: 1
+cache_block_latest_access_time: 1
 cache_block_dirty: 0
-cache_block_data: 0
+cache_block_data: 5
 ############################
 Set: 2
 set_priority_divider: 0
 ----------------------------
 ca: 0
 cache_block_valid: 1
-cache_block_tag: 0
-cache_block_latest_access_time: 3
+cache_block_tag: 1
+cache_block_latest_access_time: 2
 cache_block_dirty: 0
-cache_block_data: 2
+cache_block_data: 6
 ----------------------------
 ca: 1
 cache_block_valid: 0
@@ -462,11 +454,11 @@ Set: 3
 set_priority_divider: 0
 ----------------------------
 ca: 0
-cache_block_valid: 1
+cache_block_valid: 0
 cache_block_tag: 0
-cache_block_latest_access_time: 4
+cache_block_latest_access_time: 0
 cache_block_dirty: 0
-cache_block_data: 3
+cache_block_data: 0
 ----------------------------
 ca: 1
 cache_block_valid: 0
@@ -477,14 +469,92 @@ cache_block_data: 0
 *****************************************************
 =========================== instruction ==============================
 inst_count: 5
-memory_address: 4
+memory_address: 5
 inst_type: R
-set_index: 0
+set_index: 1
 tag: 1
-first_non_valid_index: 1
-Read result: 4
-Read result from test_memory: 4
+first_non_valid_index: -1
+Read result: 5
+Read result from test_memory: 5
 Correct read!!
+hit/miss: HIT
+******************** CACHE ***************************
+############################
+Set: 0
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 0
+cache_block_latest_access_time: 4
+cache_block_dirty: 0
+cache_block_data: 0
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_dirty: 0
+cache_block_data: 0
+############################
+Set: 1
+set_priority_divider: 2
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 0
+cache_block_latest_access_time: 3
+cache_block_dirty: 0
+cache_block_data: 1
+----------------------------
+ca: 1
+cache_block_valid: 1
+cache_block_tag: 1
+cache_block_latest_access_time: 5
+cache_block_dirty: 0
+cache_block_data: 5
+############################
+Set: 2
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 1
+cache_block_latest_access_time: 2
+cache_block_dirty: 0
+cache_block_data: 6
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_dirty: 0
+cache_block_data: 0
+############################
+Set: 3
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_dirty: 0
+cache_block_data: 0
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_dirty: 0
+cache_block_data: 0
+*****************************************************
+=========================== instruction ==============================
+inst_count: 6
+memory_address: 7
+inst_type: W
+set_index: 3
+tag: 1
+first_non_valid_index: 0
 hit/miss: MISS
 ******************** CACHE ***************************
 ############################
@@ -494,26 +564,9 @@ set_priority_divider: 0
 ca: 0
 cache_block_valid: 1
 cache_block_tag: 0
-cache_block_latest_access_time: 0
+cache_block_latest_access_time: 4
 cache_block_dirty: 0
 cache_block_data: 0
-----------------------------
-ca: 1
-cache_block_valid: 1
-cache_block_tag: 1
-cache_block_latest_access_time: 5
-cache_block_dirty: 0
-cache_block_data: 4
-############################
-Set: 1
-set_priority_divider: 1
-----------------------------
-ca: 0
-cache_block_valid: 1
-cache_block_tag: 0
-cache_block_latest_access_time: 2
-cache_block_dirty: 0
-cache_block_data: 1
 ----------------------------
 ca: 1
 cache_block_valid: 0
@@ -522,15 +575,32 @@ cache_block_latest_access_time: 0
 cache_block_dirty: 0
 cache_block_data: 0
 ############################
-Set: 2
-set_priority_divider: 0
+Set: 1
+set_priority_divider: 2
 ----------------------------
 ca: 0
 cache_block_valid: 1
 cache_block_tag: 0
 cache_block_latest_access_time: 3
 cache_block_dirty: 0
-cache_block_data: 2
+cache_block_data: 1
+----------------------------
+ca: 1
+cache_block_valid: 1
+cache_block_tag: 1
+cache_block_latest_access_time: 5
+cache_block_dirty: 0
+cache_block_data: 5
+############################
+Set: 2
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 1
+cache_block_latest_access_time: 2
+cache_block_dirty: 0
+cache_block_data: 6
 ----------------------------
 ca: 1
 cache_block_valid: 0
@@ -544,10 +614,10 @@ set_priority_divider: 0
 ----------------------------
 ca: 0
 cache_block_valid: 1
-cache_block_tag: 0
-cache_block_latest_access_time: 4
+cache_block_tag: 1
+cache_block_latest_access_time: 6
 cache_block_dirty: 0
-cache_block_data: 3
+cache_block_data: 7
 ----------------------------
 ca: 1
 cache_block_valid: 0
@@ -557,15 +627,12 @@ cache_block_dirty: 0
 cache_block_data: 0
 *****************************************************
 =========================== instruction ==============================
-inst_count: 6
-memory_address: 5
-inst_type: R
-set_index: 1
-tag: 1
+inst_count: 7
+memory_address: 3
+inst_type: W
+set_index: 3
+tag: 0
 first_non_valid_index: 1
-Read result: 5
-Read result from test_memory: 5
-Correct read!!
 moving line to low priority group...
 set: 1
 ca: 0
@@ -578,86 +645,22 @@ set_priority_divider: 0
 ca: 0
 cache_block_valid: 1
 cache_block_tag: 0
-cache_block_latest_access_time: 0
-cache_block_dirty: 0
-cache_block_data: 0
-----------------------------
-ca: 1
-cache_block_valid: 1
-cache_block_tag: 1
-cache_block_latest_access_time: 5
-cache_block_dirty: 0
-cache_block_data: 4
-############################
-Set: 1
-set_priority_divider: 0
-----------------------------
-ca: 0
-cache_block_valid: 1
-cache_block_tag: 0
-cache_block_latest_access_time: 2
-cache_block_dirty: 0
-cache_block_data: 1
-----------------------------
-ca: 1
-cache_block_valid: 1
-cache_block_tag: 1
-cache_block_latest_access_time: 6
-cache_block_dirty: 0
-cache_block_data: 5
-############################
-Set: 2
-set_priority_divider: 0
-----------------------------
-ca: 0
-cache_block_valid: 1
-cache_block_tag: 0
-cache_block_latest_access_time: 3
-cache_block_dirty: 0
-cache_block_data: 2
-----------------------------
-ca: 1
-cache_block_valid: 0
-cache_block_tag: 0
-cache_block_latest_access_time: 0
-cache_block_dirty: 0
-cache_block_data: 0
-############################
-Set: 3
-set_priority_divider: 0
-----------------------------
-ca: 0
-cache_block_valid: 1
-cache_block_tag: 0
 cache_block_latest_access_time: 4
 cache_block_dirty: 0
-cache_block_data: 3
+cache_block_data: 0
 ----------------------------
 ca: 1
-cache_block_valid: 0
+cache_block_valid: 1
 cache_block_tag: 0
-cache_block_latest_access_time: 0
+cache_block_latest_access_time: 3
 cache_block_dirty: 0
-cache_block_data: 0
-*****************************************************
-=========================== instruction ==============================
-inst_count: 7
-memory_address: 6
-inst_type: R
-set_index: 2
-tag: 1
-first_non_valid_index: 1
-Read result: 6
-Read result from test_memory: 6
-Correct read!!
-hit/miss: MISS
-******************** CACHE ***************************
+cache_block_data: 1
 ############################
-Set: 0
-set_priority_divider: 0
+Set: 1
+set_priority_divider: 1
 ----------------------------
 ca: 0
-cache_block_valid: 1
+cache_block_valid: 0
 cache_block_tag: 0
 cache_block_latest_access_time: 0
 cache_block_dirty: 0
@@ -668,23 +671,6 @@ cache_block_valid: 1
 cache_block_tag: 1
 cache_block_latest_access_time: 5
 cache_block_dirty: 0
-cache_block_data: 4
-############################
-Set: 1
-set_priority_divider: 0
-----------------------------
-ca: 0
-cache_block_valid: 1
-cache_block_tag: 0
-cache_block_latest_access_time: 2
-cache_block_dirty: 0
-cache_block_data: 1
-----------------------------
-ca: 1
-cache_block_valid: 1
-cache_block_tag: 1
-cache_block_latest_access_time: 6
-cache_block_dirty: 0
 cache_block_data: 5
 ############################
 Set: 2
@@ -692,27 +678,10 @@ set_priority_divider: 0
 ----------------------------
 ca: 0
 cache_block_valid: 1
-cache_block_tag: 0
-cache_block_latest_access_time: 3
-cache_block_dirty: 0
-cache_block_data: 2
-----------------------------
-ca: 1
-cache_block_valid: 1
 cache_block_tag: 1
-cache_block_latest_access_time: 7
+cache_block_latest_access_time: 2
 cache_block_dirty: 0
 cache_block_data: 6
-############################
-Set: 3
-set_priority_divider: 0
-----------------------------
-ca: 0
-cache_block_valid: 1
-cache_block_tag: 0
-cache_block_latest_access_time: 4
-cache_block_dirty: 0
-cache_block_data: 3
 ----------------------------
 ca: 1
 cache_block_valid: 0
@@ -720,18 +689,35 @@ cache_block_tag: 0
 cache_block_latest_access_time: 0
 cache_block_dirty: 0
 cache_block_data: 0
+############################
+Set: 3
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 1
+cache_block_latest_access_time: 6
+cache_block_dirty: 0
+cache_block_data: 7
+----------------------------
+ca: 1
+cache_block_valid: 1
+cache_block_tag: 0
+cache_block_latest_access_time: 7
+cache_block_dirty: 0
+cache_block_data: 3
 *****************************************************
 =========================== instruction ==============================
 inst_count: 8
-memory_address: 16
-inst_type: R
-set_index: 0
-tag: 4
-first_non_valid_index: -1
-Read result: 16
-Read result from test_memory: 16
-Correct read!!
-hit/miss: MISS
+memory_address: 5
+inst_type: W
+set_index: 1
+tag: 1
+first_non_valid_index: 0
+moving line to low priority group...
+set: 1
+ca: 0
+hit/miss: HIT
 ******************** CACHE ***************************
 ############################
 Set: 0
@@ -739,61 +725,27 @@ set_priority_divider: 0
 ----------------------------
 ca: 0
 cache_block_valid: 1
-cache_block_tag: 4
-cache_block_latest_access_time: 8
-cache_block_dirty: 0
-cache_block_data: 16
-----------------------------
-ca: 1
-cache_block_valid: 1
-cache_block_tag: 1
-cache_block_latest_access_time: 5
-cache_block_dirty: 0
-cache_block_data: 4
-############################
-Set: 1
-set_priority_divider: 0
-----------------------------
-ca: 0
-cache_block_valid: 1
 cache_block_tag: 0
-cache_block_latest_access_time: 2
+cache_block_latest_access_time: 4
 cache_block_dirty: 0
-cache_block_data: 1
+cache_block_data: 0
 ----------------------------
 ca: 1
-cache_block_valid: 1
-cache_block_tag: 1
-cache_block_latest_access_time: 6
-cache_block_dirty: 0
-cache_block_data: 5
-############################
-Set: 2
-set_priority_divider: 0
-----------------------------
-ca: 0
 cache_block_valid: 1
 cache_block_tag: 0
 cache_block_latest_access_time: 3
 cache_block_dirty: 0
-cache_block_data: 2
-----------------------------
-ca: 1
-cache_block_valid: 1
-cache_block_tag: 1
-cache_block_latest_access_time: 7
-cache_block_dirty: 0
-cache_block_data: 6
+cache_block_data: 1
 ############################
-Set: 3
-set_priority_divider: 0
+Set: 1
+set_priority_divider: 1
 ----------------------------
 ca: 0
 cache_block_valid: 1
-cache_block_tag: 0
-cache_block_latest_access_time: 4
-cache_block_dirty: 0
-cache_block_data: 3
+cache_block_tag: 1
+cache_block_latest_access_time: 8
+cache_block_dirty: 1
+cache_block_data: 50
 ----------------------------
 ca: 1
 cache_block_valid: 0
@@ -801,18 +753,52 @@ cache_block_tag: 0
 cache_block_latest_access_time: 0
 cache_block_dirty: 0
 cache_block_data: 0
+############################
+Set: 2
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 1
+cache_block_latest_access_time: 2
+cache_block_dirty: 0
+cache_block_data: 6
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_dirty: 0
+cache_block_data: 0
+############################
+Set: 3
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 1
+cache_block_latest_access_time: 6
+cache_block_dirty: 0
+cache_block_data: 7
+----------------------------
+ca: 1
+cache_block_valid: 1
+cache_block_tag: 0
+cache_block_latest_access_time: 7
+cache_block_dirty: 0
+cache_block_data: 3
 *****************************************************
 =========================== instruction ==============================
 inst_count: 9
-memory_address: 17
+memory_address: 7
 inst_type: R
-set_index: 1
-tag: 4
+set_index: 3
+tag: 1
 first_non_valid_index: -1
-Read result: 17
-Read result from test_memory: 17
+Read result: 7
+Read result from test_memory: 7
 Correct read!!
-hit/miss: MISS
+hit/miss: HIT
 ******************** CACHE ***************************
 ############################
 Set: 0
@@ -820,61 +806,27 @@ set_priority_divider: 0
 ----------------------------
 ca: 0
 cache_block_valid: 1
-cache_block_tag: 4
-cache_block_latest_access_time: 8
+cache_block_tag: 0
+cache_block_latest_access_time: 4
 cache_block_dirty: 0
-cache_block_data: 16
+cache_block_data: 0
 ----------------------------
 ca: 1
-cache_block_valid: 1
-cache_block_tag: 1
-cache_block_latest_access_time: 5
-cache_block_dirty: 0
-cache_block_data: 4
-############################
-Set: 1
-set_priority_divider: 0
-----------------------------
-ca: 0
-cache_block_valid: 1
-cache_block_tag: 4
-cache_block_latest_access_time: 9
-cache_block_dirty: 0
-cache_block_data: 17
-----------------------------
-ca: 1
-cache_block_valid: 1
-cache_block_tag: 1
-cache_block_latest_access_time: 6
-cache_block_dirty: 0
-cache_block_data: 5
-############################
-Set: 2
-set_priority_divider: 0
-----------------------------
-ca: 0
 cache_block_valid: 1
 cache_block_tag: 0
 cache_block_latest_access_time: 3
 cache_block_dirty: 0
-cache_block_data: 2
-----------------------------
-ca: 1
-cache_block_valid: 1
-cache_block_tag: 1
-cache_block_latest_access_time: 7
-cache_block_dirty: 0
-cache_block_data: 6
+cache_block_data: 1
 ############################
-Set: 3
-set_priority_divider: 0
+Set: 1
+set_priority_divider: 1
 ----------------------------
 ca: 0
 cache_block_valid: 1
-cache_block_tag: 0
-cache_block_latest_access_time: 4
-cache_block_dirty: 0
-cache_block_data: 3
+cache_block_tag: 1
+cache_block_latest_access_time: 8
+cache_block_dirty: 1
+cache_block_data: 50
 ----------------------------
 ca: 1
 cache_block_valid: 0
@@ -882,13 +834,47 @@ cache_block_tag: 0
 cache_block_latest_access_time: 0
 cache_block_dirty: 0
 cache_block_data: 0
+############################
+Set: 2
+set_priority_divider: 0
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 1
+cache_block_latest_access_time: 2
+cache_block_dirty: 0
+cache_block_data: 6
+----------------------------
+ca: 1
+cache_block_valid: 0
+cache_block_tag: 0
+cache_block_latest_access_time: 0
+cache_block_dirty: 0
+cache_block_data: 0
+############################
+Set: 3
+set_priority_divider: 1
+----------------------------
+ca: 0
+cache_block_valid: 1
+cache_block_tag: 1
+cache_block_latest_access_time: 9
+cache_block_dirty: 0
+cache_block_data: 7
+----------------------------
+ca: 1
+cache_block_valid: 1
+cache_block_tag: 0
+cache_block_latest_access_time: 7
+cache_block_dirty: 0
+cache_block_data: 3
 *****************************************************
 Cache statistics: 
 Number of Accesses: 10
-Number of Reads: 10
-Number of Read Hits: 1
-Number of Read Misses: 9
-Number of Writes: 0
-Number of Write Hits: 0
-Number of Write Misses: 0
-Hit ratio: 0.1
+Number of Reads: 3
+Number of Read Hits: 3
+Number of Read Misses: 0
+Number of Writes: 7
+Number of Write Hits: 1
+Number of Write Misses: 6
+Hit ratio: 0.4

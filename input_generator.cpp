@@ -6,10 +6,10 @@
 
 using namespace std;
 
-#define ACCESS_REQUESTS 100
+#define ACCESS_REQUESTS 1000
 #define MAX_MEM_ADDRESS 512
 #define MAX_DATA 1024
-#define DISTINCT_MEM_ADDRESS 6
+#define DISTINCT_MEM_ADDRESS 20
 #define R 1
 #define W 0
 
@@ -41,7 +41,7 @@ int get_random_from_freq(vector<int> &arr, vector<int> &freq)
 int main()
 {
     ofstream inputfile;
-    inputfile.open("input/inp_gen6.txt");
+    inputfile.open("input/inp_gen_large0.txt");
     srand(time(0));
 
     vector<int> memory_address_vector;

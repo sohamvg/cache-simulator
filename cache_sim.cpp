@@ -4,6 +4,7 @@
 #include <sstream>
 #include <string>
 #include <algorithm>
+#include <math.h>
 
 using namespace std;
 
@@ -16,9 +17,19 @@ using namespace std;
 #define MISS 0
 #define DEBUG 1
 
+// check validity of number
+bool check_validity(int n)
+{
+    if (n == 0)
+        return false;
+
+    return ceil(log2(n)) == floor(log2(n));
+}
+
+// simulate cache
 int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int T, vector<vector<int>> &instructions)
 {
-    if (cache_size % 2 != 0 || cache_block_size % 2 != 0 || cache_associativity % 2 != 0)
+    if (!(check_validity(cache_size) && check_validity(cache_block_size) && check_validity(cache_associativity)))
     {
         cout << "Invalid parameters" << endl;
         exit(EXIT_FAILURE);
@@ -508,6 +519,16 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
 #endif
     }
 
+    std::cout << "******************** CACHE ***************************" << endl;
+    std::cout << "#Data, Tag, Valid-status(valid=1), dirty-status(dirty=1)" << endl;
+    for (int s = 0; s < total_sets; s++)
+    {
+        for (int ca = 0; ca < cache_associativity; ca++)
+        {
+            std::cout << cache_block_data[s][ca] << ", " << cache_block_tag[s][ca] << ", " << cache_block_valid[s][ca] << ", " << cache_block_dirty[s][ca] << endl;
+        }
+    }
+    std::cout << "*****************************************************" << endl;
     std::cout << "Cache statistics: " << endl;
     std::cout << "Number of Accesses: " << inst_count << endl;
     std::cout << "Number of Reads: " << total_reads << endl;

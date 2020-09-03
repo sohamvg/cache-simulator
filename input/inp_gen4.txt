@@ -1,0 +1,19 @@
+16 <cache size in bytes>
+2 <cache block size in bytes>
+2 <cache associativity>
+4 <T>
+328, W, 937
+208, W, 438
+429, W, 150
+429, R
+328, W, 721
+429, R
+328, R
+429, R
+429, W, 363
+263, W, 308
+429, R
+151, W, 623
+328, W, 538
+328, R
+151, W, 377

@@ -18,6 +18,12 @@ using namespace std;
 
 int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int T, vector<vector<int>> &instructions)
 {
+    if (cache_size % 2 != 0 || cache_block_size % 2 != 0 || cache_associativity % 2 != 0)
+    {
+        cout << "Invalid parameters" << endl;
+        exit(EXIT_FAILURE);
+    }
+
     int total_cache_blocks = cache_size / cache_block_size;
     int total_sets = total_cache_blocks / cache_associativity;
 
@@ -170,8 +176,6 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
 
             if (hit_or_miss == MISS)
             {
-                read_result = main_memory[memory_address];
-
                 if (first_non_valid_index != -1)
                 {
                     // load from main memory to cache
@@ -203,8 +207,8 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
                         if (cache_block_dirty[set_index][LRU_index] == 1)
                         {
                             // when replacing dirty block, write back to main memory
-                            int main_memory_address = (cache_block_tag[set_index][LRU_index] * total_sets) + set_index;
-                            main_memory[main_memory_address] = cache_block_data[set_index][LRU_index];
+                            int corresponding_main_memory_address = (cache_block_tag[set_index][LRU_index] * total_sets) + set_index;
+                            main_memory[corresponding_main_memory_address] = cache_block_data[set_index][LRU_index];
                         }
 
                         // load from main memory to cache
@@ -229,6 +233,13 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
                             }
                         }
 
+                        if (cache_block_dirty[set_index][LRU_index] == 1)
+                        {
+                            // when replacing dirty block, write back to main memory
+                            int corresponding_main_memory_address = (cache_block_tag[set_index][LRU_index] * total_sets) + set_index;
+                            main_memory[corresponding_main_memory_address] = cache_block_data[set_index][LRU_index];
+                        }
+
                         set_priority_divider[set_index]--;
                         int set_priority_divider_index = set_priority_divider[set_index];
 
@@ -238,13 +249,6 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
                         cache_block_valid[set_index][LRU_index] = cache_block_valid[set_index][set_priority_divider_index];
                         cache_block_latest_access_time[set_index][LRU_index] = cache_block_latest_access_time[set_index][set_priority_divider_index];
 
-                        if (cache_block_dirty[set_index][set_priority_divider_index] == 1)
-                        {
-                            // when replacing dirty block, write back to main memory
-                            int main_memory_address = (cache_block_tag[set_index][set_priority_divider_index] * total_sets) + set_index;
-                            main_memory[main_memory_address] = cache_block_data[set_index][set_priority_divider_index];
-                        }
-
                         // load from main memory to cache
                         cache_block_data[set_index][set_priority_divider_index] = main_memory[memory_address];
                         cache_block_tag[set_index][set_priority_divider_index] = tag;
@@ -253,6 +257,8 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
                         cache_block_latest_access_time[set_index][set_priority_divider_index] = inst_count;
                     }
                 }
+
+                read_result = main_memory[memory_address];
             }
 
 #if DEBUG
@@ -381,8 +387,8 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
                         if (cache_block_dirty[set_index][LRU_index] == 1)
                         {
                             // when replacing dirty block, write back to main memory
-                            int main_memory_address = (cache_block_tag[set_index][LRU_index] * total_sets) + set_index;
-                            main_memory[main_memory_address] = cache_block_data[set_index][LRU_index];
+                            int corresponding_main_memory_address = (cache_block_tag[set_index][LRU_index] * total_sets) + set_index;
+                            main_memory[corresponding_main_memory_address] = cache_block_data[set_index][LRU_index];
                         }
 
                         // load from main memory to cache
@@ -407,6 +413,13 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
                             }
                         }
 
+                        if (cache_block_dirty[set_index][LRU_index] == 1)
+                        {
+                            // when replacing dirty block, write back to main memory
+                            int corresponding_main_memory_address = (cache_block_tag[set_index][LRU_index] * total_sets) + set_index;
+                            main_memory[corresponding_main_memory_address] = cache_block_data[set_index][LRU_index];
+                        }
+
                         set_priority_divider[set_index]--;
                         int set_priority_divider_index = set_priority_divider[set_index];
 
@@ -416,12 +429,6 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
                         cache_block_valid[set_index][LRU_index] = cache_block_valid[set_index][set_priority_divider_index];
                         cache_block_latest_access_time[set_index][LRU_index] = cache_block_latest_access_time[set_index][set_priority_divider_index];
 
-                        if (cache_block_dirty[set_index][set_priority_divider_index] == 1)
-                        {
-                            // when replacing dirty block, write back to main memory
-                            int main_memory_address = (cache_block_tag[set_index][set_priority_divider_index] * total_sets) + set_index;
-                            main_memory[main_memory_address] = cache_block_data[set_index][set_priority_divider_index];
-                        }
                         // load from main memory to cache
                         cache_block_data[set_index][set_priority_divider_index] = main_memory[memory_address];
                         cache_block_tag[set_index][set_priority_divider_index] = tag;
@@ -450,7 +457,7 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
                     std::cout << "set: " << i << endl;
                     std::cout << "ca: " << j << endl;
 #endif
-                    int set_priority_divider_index = set_priority_divider[set_index];
+                    int set_priority_divider_index = set_priority_divider[i];
 
                     int temp_block_valid = cache_block_valid[i][set_priority_divider_index - 1];
                     int temp_block_tag = cache_block_tag[i][set_priority_divider_index - 1];

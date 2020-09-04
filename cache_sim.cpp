@@ -8,7 +8,7 @@
 
 using namespace std;
 
-#define MAIN_MEMORY_BLOCKS 1024
+#define MAIN_MEMORY_BLOCKS 2048
 #define R 1
 #define W 0
 #define PRESENT 1
@@ -17,7 +17,7 @@ using namespace std;
 #define MISS 0
 #define DEBUG 1
 
-// check validity of number
+// check validity of number (should be exponent of 2)
 bool check_validity(int n)
 {
     if (n == 0)
@@ -37,6 +37,11 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
 
     int total_cache_blocks = cache_size / cache_block_size;
     int total_sets = total_cache_blocks / cache_associativity;
+
+    if (total_cache_blocks < 1 || total_sets < 1) {
+        cout << "Invalid parameters" << endl;
+        exit(EXIT_FAILURE);
+    }
 
     int main_memory[MAIN_MEMORY_BLOCKS]; // block addressable (block size same as cache_block_size)
     int test_memory[MAIN_MEMORY_BLOCKS];

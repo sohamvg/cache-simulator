@@ -6,10 +6,8 @@
 
 using namespace std;
 
-#define ACCESS_REQUESTS 10000
 #define MAX_MEM_ADDRESS 512
 #define MAX_DATA 1024
-#define DISTINCT_MEM_ADDRESS 5
 #define R 1
 #define W 0
 
@@ -38,10 +36,9 @@ int get_random_from_freq(vector<int> &arr, vector<int> &freq)
     return arr.at(indexc);
 }
 
-int main()
+void generate(string filename, int access_requests, int distinct_mem_address)
 {
     ofstream inputfile;
-    string filename = "input/inp_gen_large2.txt";
     inputfile.open(filename);
     srand(time(0));
 
@@ -50,7 +47,7 @@ int main()
     vector<int> memory_address_freq;
     int frequency_total = 0;
 
-    for (int i = 0; i < DISTINCT_MEM_ADDRESS; i++)
+    for (int i = 0; i < distinct_mem_address; i++)
     {
         memory_address_vector.push_back(rand() % (MAX_MEM_ADDRESS + 1));
         int rand_freq = rand() % (MAX_MEM_ADDRESS + 1);
@@ -66,7 +63,7 @@ int main()
     inputfile << "16 <cache size in bytes>\n2 <cache block size in bytes>\n2 <cache associativity>\n4 <T>\n";
 
     int total_reads = 0;
-    for (int i = 0; i < ACCESS_REQUESTS; i++)
+    for (int i = 0; i < access_requests; i++)
     {
         int memory_address = get_random_from_freq(memory_address_vector, memory_address_freq);
         int read_or_write = get_random_from_freq(read_or_write_vector, read_or_write_freq);
@@ -81,14 +78,25 @@ int main()
         }
     }
 
-    cout << "Input file " << filename << " " << "generated with: " << endl;
-    cout << "Number of memory access requests: " << ACCESS_REQUESTS << endl;
-    cout << "Read requests: " << total_reads << "   Write requests: " << ACCESS_REQUESTS - total_reads << endl;
+    cout << "Input file " << filename << " "
+         << "generated with: " << endl;
+    cout << "Number of memory access requests: " << access_requests << endl;
+    cout << "Read requests: " << total_reads << "   Write requests: " << access_requests - total_reads << endl;
     cout << "Memory addresses & their freqeuncy in access requests: " << endl;
     for (int i = 0; i < memory_address_vector.size(); i++)
     {
-        cout << i+1 << ") memory address: " << memory_address_vector.at(i) << "      frequency: " << (float)memory_address_freq.at(i) * 100 / frequency_total << " %" << endl;
+        cout << i + 1 << ") memory address: " << memory_address_vector.at(i) << "      frequency: " << (float)memory_address_freq.at(i) * 100 / frequency_total << " %" << endl;
     }
 
     inputfile.close();
+}
+
+int main()
+{
+    string filename = "input/inp_gen_large0.txt";
+    int access_requests = 10000; // number of cache access requests to generate
+    int distinct_mem_address = 20; // number of distinct memory addresses in requests
+    generate(filename, access_requests, distinct_mem_address);
+
+    return 0;
 }

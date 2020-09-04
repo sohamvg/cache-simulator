@@ -15,7 +15,7 @@ using namespace std;
 #define NOT_PRESENT 0
 #define HIT 1
 #define MISS 0
-#define DEBUG 1
+#define DEBUG 0
 
 // check validity of number (should be exponent of 2)
 bool check_validity(int n)
@@ -44,7 +44,7 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
     }
 
     int main_memory[MAIN_MEMORY_BLOCKS]; // block addressable (block size same as cache_block_size)
-    int test_memory[MAIN_MEMORY_BLOCKS];
+    int test_memory[MAIN_MEMORY_BLOCKS]; // dummy test memory
 
     // initializing memory
     for (int i = 0; i < MAIN_MEMORY_BLOCKS; i++)

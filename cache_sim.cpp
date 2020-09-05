@@ -43,8 +43,8 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
         exit(EXIT_FAILURE);
     }
 
-    int main_memory[MAIN_MEMORY_BLOCKS]; // block addressable (block size same as cache_block_size)
-    int test_memory[MAIN_MEMORY_BLOCKS]; // dummy test memory
+    long long int main_memory[MAIN_MEMORY_BLOCKS]; // block addressable (block size same as cache_block_size)
+    long long int test_memory[MAIN_MEMORY_BLOCKS]; // dummy test memory
 
     // initializing memory
     for (int i = 0; i < MAIN_MEMORY_BLOCKS; i++)
@@ -53,7 +53,7 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
         test_memory[i] = i;
     }
 
-    int cache_block_data[total_sets][cache_associativity] = {0}; // block addressable
+    long long int cache_block_data[total_sets][cache_associativity] = {0}; // block addressable
     int cache_block_valid[total_sets][cache_associativity] = {NOT_PRESENT};
     int cache_block_tag[total_sets][cache_associativity] = {0};
     int cache_block_dirty[total_sets][cache_associativity] = {0};
@@ -129,7 +129,7 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
         if (inst_type == R)
         {
             total_reads++;
-            int read_result = 0;
+            long long int read_result = 0;
             int first_non_valid_index = -1;
             for (int i = 0; i < cache_associativity; i++)
             {
@@ -156,7 +156,7 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
                             int temp_block_tag = cache_block_tag[set_index][set_priority_divider_index];
                             int temp_block_dirty = cache_block_dirty[set_index][set_priority_divider_index];
                             int temp_block_access_time = cache_block_latest_access_time[set_index][set_priority_divider_index];
-                            int temp_block_data = cache_block_data[set_index][set_priority_divider_index];
+                            long long int temp_block_data = cache_block_data[set_index][set_priority_divider_index];
 
                             cache_block_valid[set_index][set_priority_divider_index] = cache_block_valid[set_index][i];
                             cache_block_tag[set_index][set_priority_divider_index] = cache_block_tag[set_index][i];
@@ -299,7 +299,7 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
                 std::cout << "Instruction error" << endl;
                 exit(EXIT_FAILURE);
             }
-            int write_data = inst.at(2);
+            long long int write_data = inst.at(2);
 
             test_memory[memory_address] = write_data;
             total_writes++;
@@ -331,7 +331,7 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
                             int temp_block_tag = cache_block_tag[set_index][set_priority_divider_index];
                             int temp_block_dirty = cache_block_dirty[set_index][set_priority_divider_index];
                             int temp_block_access_time = cache_block_latest_access_time[set_index][set_priority_divider_index];
-                            int temp_block_data = cache_block_data[set_index][set_priority_divider_index];
+                            long long int temp_block_data = cache_block_data[set_index][set_priority_divider_index];
 
                             cache_block_valid[set_index][set_priority_divider_index] = cache_block_valid[set_index][i];
                             cache_block_tag[set_index][set_priority_divider_index] = cache_block_tag[set_index][i];
@@ -479,7 +479,7 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
                     int temp_block_tag = cache_block_tag[i][set_priority_divider_index - 1];
                     int temp_block_dirty = cache_block_dirty[i][set_priority_divider_index - 1];
                     int temp_block_access_time = cache_block_latest_access_time[i][set_priority_divider_index - 1];
-                    int temp_block_data = cache_block_data[i][set_priority_divider_index - 1];
+                    long long int temp_block_data = cache_block_data[i][set_priority_divider_index - 1];
 
                     cache_block_valid[i][set_priority_divider_index - 1] = cache_block_valid[i][j];
                     cache_block_tag[i][set_priority_divider_index - 1] = cache_block_tag[i][j];
@@ -615,7 +615,7 @@ int main(int argc, char **argv)
 
                 if (getline(iss, write_data, ','))
                 {
-                    inst.push_back(stoi(write_data));
+                    inst.push_back(stoll(write_data));
                 }
                 instructions.push_back(inst);
             }

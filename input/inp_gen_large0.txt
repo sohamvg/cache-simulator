@@ -1,6 +1,6 @@
 128 <cache size in bytes>
 2 <cache block size in bytes>
-128 <cache associativity>
+32 <cache associativity>
 4 <T>
 493, W, 978
 32, R

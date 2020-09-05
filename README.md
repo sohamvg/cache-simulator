@@ -19,11 +19,11 @@ The addresses given are assumed to be block addresses, which makes the cache and
 - Initially all blocks belong to low priority group. 
 
 ### Reads & Writes
-- Write back on data-write hit.
-- Write allocate on data-write miss.
+- **Write back on data-write hit:** On write hits, write to the cache and set dirty bit to 1. Write back to the main memory whenever a dirty block is replaced.
+- **Write allocate on data-write miss:** On write miss, update the main memory and load to the cache from the main memory.
 
 ## Testing
-Set the `DEBUG` macro in `cache_sim.cpp` to 1 for printing the state of the cache after each request and additional information useful for testing.
+Set the `DEBUG` macro in `cache_sim.cpp` to 1 to print the state of the cache after each request and additional information useful for testing.
 
 A *dummy test memory* which has no cache component is used to verify the results of all read requests. All `W` requests simply write to the test memory and all `R` requests simply read from the test memory which are then compared with the results of the `R` request given by the cache simulation. If matched, "Correct Read!!" is printed and "Wrong Read!!" is printed otherwise.
 
@@ -40,6 +40,7 @@ vector<int> read_or_write_vector{R, W};
 vector<int> read_or_write_freq{65, 35}; // Reads comprise 65% of total requests, and Writes comprise 35%.
 ```
 
-The test files were tested using the dummy test memory:
-- `input_gen_large0.txt` contains 50,000 access requests.  
-- `input_gen_large_reads.txt` contains 10,000 requests, 95% of which are read requests.
+Test files are provided in `input/` folder and they were all verified by testing against the dummy test memory.
+
+## Conclusions
+Division of sets into HIGH and LOW priority groups increases the hit ratio of the cache in general as HIGH priority blocks are likely to be accessed again following the principle of temporal & spacial locality. But this will require some additional hardware overheads for maintaining the division. Also, it can be seen that increasing the cache block size and cache associativity for the same test inputs will result in higher hit ratios, as expected.

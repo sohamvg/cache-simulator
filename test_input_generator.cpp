@@ -93,8 +93,8 @@ void generate(string filename, int access_requests, int distinct_mem_address)
 
 int main()
 {
-    string filename = "input/inp_gen_large0.txt";
-    int access_requests = 10000; // number of cache access requests to generate
+    string filename = "input/graph/inp_graph.txt";
+    int access_requests = 20000; // number of cache access requests to generate
     int distinct_mem_address = 20; // number of distinct memory addresses in requests
     generate(filename, access_requests, distinct_mem_address);
 

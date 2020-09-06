@@ -44,5 +44,43 @@ vector<int> read_or_write_freq{65, 35}; // Reads comprise 65% of total requests,
 
 Test files are provided in `input/` folder and they were all verified by testing against the dummy test memory. The test files have access requests ranging upto **50,000** and even more can be generated using `test_input_generator.cpp`.
 
+## Observations
+These observations were made using `input/inp_gen_obs.txt`.
+- Variation of hit ratio with cache size and cache associativity
+
+  | cache size (bytes) | 1-way    | 2-way    | 4-way    |
+  |--------------------|----------|----------|----------|
+  | 4                  | 0.251033 | 0.305533 | 0.313533 |
+  | 8                  | 0.385033 | 0.4549   | 0.498267 |
+  | 16                 | 0.5349   | 0.6301   | 0.781667 |
+  | 32                 | 0.7086   | 0.791133 | 0.9894   |
+  | 64                 | 0.885833 | 0.950367 | 0.999333 |
+  | 128                | 0.986067 | 0.999333 | 0.999333 |
+
+  ![Varation of hit ratio with cache size & cache associativity](./Varation%20of%20hit%20ratio%20with%20cache%20size%20&%20cache%20associativity.png)
+
+<br>
+
+- Variation of hit ratio with T and cache size (at 4-way cache associativity)
+
+  | cache size (bytes) | T = 4    | T = 8    | T = 32   |
+  |--------------------|----------|----------|----------|
+  | 4                  | 0.305533 | 0.312    | 0.317833 |
+  | 8                  | 0.4549   | 0.462033 | 0.469867 |
+  | 16                 | 0.6301   | 0.6371   | 0.640667 |
+  | 32                 | 0.791133 | 0.794267 | 0.795767 |
+  | 64                 | 0.950367 | 0.9506   | 0.9528   |
+  | 128                | 0.999333 | 0.999333 | 0.999333 |
+
+<br>
+
+- Variation of hit ratio with T and cache associativity (constant cache size = 32 bytes)
+
+  | cache associativity | T=4      | T=8      | T=32     |
+  |---------------------|----------|----------|----------|
+  | 1-way               | 0.7086   | 0.7086   | 0.7086   |
+  | 2-way               | 0.791133 | 0.794267 | 0.795767 |
+  | 4-way               | 0.9894   | 0.9897   | 0.992267 |
+
 ## Conclusions
 Division of sets into HIGH and LOW priority groups increases the hit ratio of the cache in general as HIGH priority blocks are likely to be accessed again following the principle of temporal & spacial locality. But this will require some additional hardware overheads for maintaining the division. Also, it can be seen that increasing the cache block size and cache associativity for the same test inputs will result in higher hit ratios but will require more time for searching within a set, as expected.

@@ -38,7 +38,8 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
     int total_cache_blocks = cache_size / cache_block_size;
     int total_sets = total_cache_blocks / cache_associativity;
 
-    if (total_cache_blocks < 1 || total_sets < 1) {
+    if (total_cache_blocks < 1 || total_sets < 1)
+    {
         cout << "Invalid parameters" << endl;
         exit(EXIT_FAILURE);
     }
@@ -53,7 +54,17 @@ int cache_sim(int cache_size, int cache_block_size, int cache_associativity, int
         test_memory[i] = i;
     }
 
-    long long int cache_block_data[total_sets][cache_associativity] = {0}; // block addressable
+    long long int cache_block_data[total_sets][cache_associativity]; // block addressable cache
+
+    // initializing cache
+    for (int s = 0; s < total_sets; s++)
+    {
+        for (int ca = 0; ca < cache_associativity; ca++)
+        {
+            cache_block_data[s][ca] = 0;
+        }
+    }
+
     int cache_block_valid[total_sets][cache_associativity] = {NOT_PRESENT};
     int cache_block_tag[total_sets][cache_associativity] = {0};
     int cache_block_dirty[total_sets][cache_associativity] = {0};

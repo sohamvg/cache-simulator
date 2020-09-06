@@ -22,10 +22,12 @@ The addresses given are assumed to be block addresses, which makes the cache and
 - **Write back on data-write hit:** On write hits, write to the cache and set dirty bit to 1. Write back to the main memory whenever a dirty block is replaced.
 - **Write allocate on data-write miss:** On write miss, update the main memory and load to the cache from the main memory.
 
+*Note:* The main memory & test memory are initialized with values equal to the block number/address.
+
 ## Testing
 Set the `DEBUG` macro in `cache_sim.cpp` to 1 to print the state of the cache after each request and additional information useful for testing.
 
-A *dummy test memory* which has no cache component is used to verify the results of all read requests. All `W` requests simply write to the test memory and all `R` requests simply read from the test memory which are then compared with the results of the `R` request given by the cache simulation. If matched, "Correct Read!!" is printed and "Wrong Read!!" is printed otherwise.
+A *dummy test memory* which has no cache component is used to verify the results of all read requests. All `W` requests simply write to the test memory and all `R` requests simply read from the test memory which are then compared with the results of the `R` request given by the cache simulation. If matched, "Correct read!!" is printed and "Wrong read!!" is printed otherwise.
 
 ### Generating test inputs
 `test_input_generator.cpp` can be used to generate large random test inputs which can be checked with the dummy test memory for correctness.
@@ -40,7 +42,7 @@ vector<int> read_or_write_vector{R, W};
 vector<int> read_or_write_freq{65, 35}; // Reads comprise 65% of total requests, and Writes comprise 35%.
 ```
 
-Test files are provided in `input/` folder and they were all verified by testing against the dummy test memory.
+Test files are provided in `input/` folder and they were all verified by testing against the dummy test memory. The test files have access requests ranging upto **50,000** and even more can be generated using `test_input_generator.cpp`.
 
 ## Conclusions
-Division of sets into HIGH and LOW priority groups increases the hit ratio of the cache in general as HIGH priority blocks are likely to be accessed again following the principle of temporal & spacial locality. But this will require some additional hardware overheads for maintaining the division. Also, it can be seen that increasing the cache block size and cache associativity for the same test inputs will result in higher hit ratios, as expected.
+Division of sets into HIGH and LOW priority groups increases the hit ratio of the cache in general as HIGH priority blocks are likely to be accessed again following the principle of temporal & spacial locality. But this will require some additional hardware overheads for maintaining the division. Also, it can be seen that increasing the cache block size and cache associativity for the same test inputs will result in higher hit ratios but will require more time for searching within a set, as expected.
